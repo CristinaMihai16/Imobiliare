@@ -1,0 +1,44 @@
+﻿@model Imobiliare.Models.Favorite
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Favorite</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_Favorite" />
+            <div class="form-group">
+                <label asp-for="ID_Utilizator" class="control-label"></label>
+                <select asp-for="ID_Utilizator" class="form-control" asp-items="ViewBag.ID_Utilizator"></select>
+                <span asp-validation-for="ID_Utilizator" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Anunt" class="control-label"></label>
+                <select asp-for="ID_Anunt" class="form-control" asp-items="ViewBag.ID_Anunt"></select>
+                <span asp-validation-for="ID_Anunt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Data_adaugare" class="control-label"></label>
+                <input asp-for="Data_adaugare" class="form-control" />
+                <span asp-validation-for="Data_adaugare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

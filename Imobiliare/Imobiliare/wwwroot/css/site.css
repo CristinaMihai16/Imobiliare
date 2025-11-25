@@ -1,0 +1,130 @@
+﻿/* ==================================== */
+/* 1. PALETA DE CULORI MODERNĂ */
+/* ==================================== */
+/* ==================================== */
+/* 1. PALETA DE CULORI MODERNĂ (Revizuită) */
+/* ==================================== */
+:root {
+    /* Turcoazul tău deschis din imaginea cardului (Acvamarin) */
+    --color-primary-new: #75c5cb;
+    /* Culoarea de Acțiune (Fuchsia/Violet) rămâne pentru contrast puternic */
+    --color-secondary-modern: #C33FC3;
+    /* Culoarea de Acțiune pentru căutare/submit (Fuchsia) */
+    --color-action: #C33FC3;
+    /* Auriu pentru "Adaugă Anunț" */
+    --color-warning-modern: #FFD700;
+    --color-text-dark: #333333;
+}
+
+/* Stil pentru titlul secțiunii de Anunțuri Recente */
+.text-section-title {
+    color: var(--color-primary-new) !important;
+    font-size: 2.2rem;
+}
+
+/* Stilul pentru Titlul Cardului și Butonul Vezi Detalii (Turcoaz deschis) */
+.text-primary-modern,
+.card-title {
+    color: var(--color-text-dark) !important; /* Facem titlul cardului mai lizibil */
+}
+
+/* Butonul Principal (Vezi Detalii / Explorează) */
+.btn-primary-modern,
+.btn-outline-primary-modern {
+    background-color: var(--color-primary-new);
+    border-color: var(--color-primary-new);
+    color: white !important;
+}
+
+    .btn-primary-modern:hover {
+        background-color: #5D9AA4;
+        border-color: #5D9AA4;
+    }
+
+.btn-outline-primary-modern {
+    background: none;
+    color: var(--color-primary-new) !important;
+}
+
+    .btn-outline-primary-modern:hover {
+        background-color: var(--color-primary-new);
+        color: white !important;
+    }
+
+/* Stil pentru Butonul de Căutare (Fuchsia) */
+.btn-search-action-modern {
+    background-color: var(--color-secondary-modern);
+    border-color: var(--color-secondary-modern);
+    color: white;
+}
+
+    .btn-search-action-modern:hover {
+        background-color: #A333A3;
+        border-color: #A333A3;
+    }
+
+/* Restul stilurilor rămân neschimbate... */
+/* Stil pentru Butonul Adaugă Anunț */
+.bg-warning-modern {
+    background-color: var(--color-warning-modern) !important;
+}
+
+/* Stil pentru Outline Turcoaz */
+.btn-outline-primary-modern {
+    color: var(--color-primary-modern);
+    border-color: var(--color-primary-modern);
+}
+
+    .btn-outline-primary-modern:hover {
+        background-color: var(--color-primary-modern);
+        color: white;
+    }
+
+/* ==================================== */
+/* 2. LAYOUT ȘI COMPONENTE */
+/* ==================================== */
+
+/* Stil pentru secțiunea Hero (Gradientul tău) */
+.hero-section {
+    background-image: linear-gradient(rgba(195, 63, 195, 0.5), rgba(114, 178, 190, 0.6)), url('/images/hero_bg_elegant.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 85vh;
+    color: white;
+}
+
+/* Efect de umbră pe text pentru lizibilitate peste imaginea complexă */
+.text-shadow-lg {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Stil pentru formularul de căutare (opacitate mai mare) */
+.search-form-modern {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Stilul Cardului Modern */
+.card-modern {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card-modern:hover {
+        transform: translateY(-5px); /* Efect de ridicare */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+/* Buton Favorite Modern */
+.btn-favorite-modern {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--color-secondary-modern);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-secondary-modern);
+}
+
+.card .card-body input:focus,
+.card .card-body textarea:focus {
+    border-color: var(--color-primary-modern);
+    box-shadow: 0 0 0 0.25rem rgba(114, 178, 190, 0.25);
+}

@@ -1,0 +1,79 @@
+﻿@model Imobiliare.Models.Anunturi
+
+@{
+    ViewData["Title"] = $"Șterge: {Model.Denumire}";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4 p-4 mb-4">
+                <div class="card-body text-center">
+
+                    <h1 class="display-5 fw-bold text-danger mb-3">⚠️ Confirmă ștergerea anunțului</h1>
+                    <h3 class="lead mb-4">Ești sigur că vrei să ștergi definitiv anunțul? Această acțiune nu poate fi anulată.</h3>
+                </div>
+            </div>
+
+            <div class="card border-danger shadow-sm rounded-4">
+                <div class="card-header bg-danger text-white fw-bold">
+                </div>
+                <div class="card-body">
+
+                    <div class="mb-4 text-center">
+                        @{
+                            string imgSrc = "";
+                            if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
+                            {
+                                var base64 = Convert.ToBase64String(Model.Imagine_anunt);
+                                imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+                            }
+                            else
+                            {
+                                imgSrc = "https://via.placeholder.com/600x300?text=Fara+Imagine";
+                            }
+                        }
+                        <img src="@imgSrc" alt="@Model.Denumire" class="img-thumbnail rounded" style="max-height: 250px; object-fit: cover;" />
+                    </div>
+
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Denumire)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Denumire)</dd>
+
+                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Pret)</dt>
+                        <dd class="col-sm-8 text-success fw-bold">@Model.Pret.ToString("N0") €</dd>
+
+                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Locatie)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Locatie)</dd>
+
+                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Descriere)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Descriere)</dd>
+
+                    </dl>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="ID_Anunt" />
+
+                    <button type="submit" class="btn btn-danger btn-lg px-5 fw-bold me-3">
+                        <i class="bi bi-trash"></i> Șterge
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left"></i> Anulează 
+                    </a>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Imobiliare.Models
+
+@inject SignInManager<Utilizator> SignInManager
+@inject UserManager<Utilizator> UserManager
+
+<ul class="navbar-nav align-items-center">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        // Obținem utilizatorul complet asincron
+        var user = await UserManager.GetUserAsync(User);
+        // Obținem Prenumele sau fallback la UserName
+        var userDisplayName = user?.Prenume ?? UserManager.GetUserName(User);
+
+        // ----------------------------------------------------
+        // SECȚIUNEA PENTRU UTILIZATORII AUTENTIFICAȚI
+        // ----------------------------------------------------
+
+        // 1. Butonul Adaugă Anunț (Rămâne mereu vizibil)
+        <li class="nav-item ms-lg-3">
+            <a class="btn bg-warning-modern text-dark fw-bold shadow-sm" href="/Anunturi/Create">
+                <i class="bi bi-lightning-fill"></i> Adaugă Anunț
+            </a>
+        </li>
+
+        // 2. Meniu Profil/Manage
+        <li class="nav-item ms-lg-3 dropdown">
+            <a id="manage" class="btn btn-primary-modern dropdown-toggle fw-bold"
+               href="#"
+               data-bs-toggle="dropdown"
+               aria-expanded="false"
+               title="Manage">
+                <i class="bi bi-person-circle"></i> Salut, @userDisplayName!
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" aria-labelledby="manage">
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <i class="bi bi-gear"></i> Profil
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/Anunturi/MyListings">
+                        <i class="bi bi-card-list"></i> Anunțurile mele
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button id="logout" type="submit" class="dropdown-item btn btn-link text-danger">
+                            <i class="bi bi-box-arrow-right"></i> Deconectare
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+
+
+    }
+    else
+    {
+        <li class="nav-item ms-lg-3">
+            <a class="btn bg-warning-modern text-dark fw-bold shadow-sm" href="/Anunturi/Create">
+                <i class="bi bi-lightning-fill"></i> Adaugă Anunț
+            </a>
+        </li>
+
+        // 2. Butoanele de Înregistrare și Autentificare
+        <li class="nav-item ms-lg-2">
+            <a class="btn btn-outline-primary-modern" id="register" asp-area="Identity" asp-page="/Account/Register">Înregistrare</a>
+        </li>
+        <li class="nav-item ms-lg-2">
+            <a class="btn btn-primary-modern" id="login" asp-area="Identity" asp-page="/Account/Login">Autentificare</a>
+        </li>
+    }
+</ul>

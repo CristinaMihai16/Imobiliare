@@ -1,0 +1,117 @@
+﻿@model Imobiliare.Models.Anunturi
+
+@{
+    ViewData["Title"] = $"Editează Anunțul: {Model.Denumire}";
+}
+
+<div class="container py-5">
+
+    @if (TempData["eroare"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Eroare la Salvare!</strong> @TempData["eroare"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["succes"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Succes!</strong> @TempData["succes"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-primary-modern">Editează Anunțul</h1>
+        <p class="text-muted">Modifici anunțul cu ID-ul: @Model.ID_Anunt</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+                <div class="card-body">
+
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <input type="hidden" asp-for="ID_Anunt" />
+                        <input type="hidden" asp-for="Data_publicare" />
+                        <input type="hidden" asp-for="ID_Utilizator" />
+
+
+                        <h4 class="mb-3 text-secondary-modern">Detalii Principale</h4>
+                        <hr />
+
+                        <div class="mb-3">
+                            <label asp-for="Denumire" class="form-label fw-semibold">Titlu Anunț</label>
+                            <input asp-for="Denumire" class="form-control form-control-lg" />
+                            <span asp-validation-for="Denumire" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Descriere" class="form-label fw-semibold">Descriere</label>
+                            <textarea asp-for="Descriere" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="Descriere" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Pret" class="form-label fw-semibold">Preț (EUR)</label>
+                                <input asp-for="Pret" class="form-control" type="number" step="1" />
+                                <span asp-validation-for="Pret" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Locatie" class="form-label fw-semibold">Locație</label>
+                                <input asp-for="Locatie" class="form-control" />
+                                <span asp-validation-for="Locatie" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <h4 class="mb-3 mt-4 text-secondary-modern">Schimbă Imaginea</h4>
+                        <hr />
+
+                        <div class="mb-4 p-3 border rounded">
+                            <label class="form-label fw-semibold d-block">Imaginea Curentă:</label>
+                            @if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
+                            {
+                                var base64 = Convert.ToBase64String(Model.Imagine_anunt);
+                                var imgsrc = string.Format("data:image/jpeg;base64,{0}", base64);
+
+                                <img src="@imgsrc" alt="Imagine curentă" class="img-thumbnail mb-3" style="max-height: 200px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <p class="text-muted">Nu există imagine salvată.</p>
+                            }
+
+                            <label for="ImagineFile" class="form-label fw-semibold">Încarcă o imagine nouă (Opțional)</label>
+                            <input type="file" name="ImagineFile" id="ImagineFile" class="form-control" />
+                            <span class="text-muted small">Lăsați gol pentru a păstra imaginea curentă.</span>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <button type="submit" value="Save" class="btn btn-search-action-modern px-5 py-2 fw-bold">
+                                <i class="bi bi-floppy"></i> Salvează Modificările
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a asp-action="Index" class="text-decoration-none text-secondary-modern">
+                    <i class="bi bi-arrow-left"></i> Înapoi la listă
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

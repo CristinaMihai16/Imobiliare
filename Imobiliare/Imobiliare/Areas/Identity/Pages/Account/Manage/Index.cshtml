@@ -1,0 +1,78 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profilul Meu";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<main class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <h1 class="display-5 fw-bold text-secondary-modern text-center mb-4">
+                <i class="bi bi-person-gear"></i> Setări Cont
+            </h1>
+            <p class="text-center text-muted mb-5">
+                Editează informațiile personale din profilul tău de utilizator.
+            </p>
+
+            <partial name="_StatusMessage" for="StatusMessage" />
+
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-8 mx-auto">
+                            <form id="profile-form" method="post">
+                                <h4 class="text-primary-modern fw-bold mb-4">Informații Personale</h4>
+                                <div asp-validation-summary="ModelOnly" class="text-danger fw-bold mb-3" role="alert"></div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Username" class="form-control" placeholder="Email" disabled />
+                                    <label asp-for="Username" class="form-label">Email</label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Input.Nume" class="form-control" placeholder="Nume" />
+                                            <label asp-for="Input.Nume" class="form-label">Nume</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Input.Prenume" class="form-control" placeholder="Prenume" />
+                                            <label asp-for="Input.Prenume" class="form-label">Prenume</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Telefon" class="form-control" placeholder="Număr de telefon." />
+                                    <label asp-for="Input.Telefon" class="form-label">Telefon</label>
+                                    <span asp-validation-for="Input.Telefon" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-4">
+                                    <input asp-for="Input.Adresa" class="form-control" placeholder="Adresa ta" />
+                                    <label asp-for="Input.Adresa" class="form-label">Adresă</label>
+                                    <span asp-validation-for="Input.Adresa" class="text-danger"></span>
+                                </div>
+
+                                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-search-action-modern fw-bold">
+                                    <i class="bi bi-save"></i> Salvează modificările
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,169 @@
+﻿@model IEnumerable<Imobiliare.Models.Anunturi>
+
+@{
+    ViewData["Title"] = " Platformă Imobiliară";
+    Layout = "_Layout";
+}
+
+<main>
+    @Html.AntiForgeryToken()  <!-- TOKEN NECESAR AJAX -->
+
+    <section class="hero-section text-white text-center d-flex align-items-center justify-content-center" style="margin-top: 56px;">
+        <div class="container">
+            <h1 class="display-3 fw-bolder mb-3 text-shadow-lg">Găsește-ți casa visată</h1>
+            <p class="lead mb-4 fw-light">Descoperă proprietăți unice, fără compromisuri.</p>
+
+            <form class="p-4 rounded-4 shadow-lg bg-white bg-opacity-95 search-form-modern">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-5">
+                        <input type="text" class="form-control form-control-lg border-0 shadow-sm" placeholder="Oraș, Locație..." required>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select form-select-lg border-0 shadow-sm">
+                            <option selected>Tranzacție</option>
+                            <option value="1">Vânzare</option>
+                            <option value="2">Închiriere</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-lg border-0 shadow-sm">
+                            <option selected>Proprietate</option>
+                            <option value="1">Apartament</option>
+                            <option value="2">Casă/Vilă</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-search-action-modern btn-lg w-100 rounded-3 fw-bold">
+                            <i class="bi bi-search"></i> Caută
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5 text-section-title fw-bold">Anunțuri adăugate recent</h2>
+
+            <div class="row">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        var favList = ViewBag.FavoriteIds as List<int?>;
+                        bool isFav = favList != null && favList.Contains(item.ID_Anunt);
+
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 shadow-lg border-0 rounded-4 card-modern overflow-hidden">
+                                <div class="card-img-top-container position-relative">
+
+                                    @* --- FOTO --- *@
+                                    @{
+                                        string imgSrc = "";
+                                        if (item.Imagine_anunt != null && item.Imagine_anunt.Length > 0)
+                                        {
+                                            var base64 = Convert.ToBase64String(item.Imagine_anunt);
+                                            imgSrc = $"data:image/jpeg;base64,{base64}";
+                                        }
+                                        else
+                                        {
+                                            imgSrc = "https://via.placeholder.com/400x300?text=Fara+Imagine";
+                                        }
+                                    }
+
+                                    <img src="@imgSrc" class="card-img-top" alt="@item.Denumire"
+                                         style="height: 250px; object-fit: cover; width: 100%;">
+
+                                    @* --- PREȚ --- *@
+                                    <span class="badge bg-dark position-absolute bottom-0 start-0 m-3 fs-5 p-2">
+                                        @item.Pret.ToString("N0") €
+                                    </span>
+
+                                    @* --- INIMĂ FAVORITE --- *@
+                                    <button class="favorite-btn btn btn-sm position-absolute top-0 end-0 m-3"
+                                            data-id="@item.ID_Anunt"
+                                            data-favorite="@isFav"
+                                            style="background: transparent; border: none;">
+
+                                        <i class="bi @(isFav ? "bi-heart-fill text-danger" : "bi-heart text-white") fs-2"></i>
+
+                                    </button>
+
+                                </div>
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold">@item.Denumire</h5>
+                                    <p class="card-text text-muted mb-3">
+                                        <i class="bi bi-geo-alt-fill"></i> @item.Locatie
+                                    </p>
+
+                                    <a asp-controller="Anunturi" asp-action="Details" asp-route-id="@item.ID_Anunt"
+                                       class="btn btn-primary-modern mt-auto">
+                                        Vezi Detalii <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Nu există anunțuri recente momentan.</p>
+                    </div>
+                }
+            </div>
+
+            <div class="text-center mt-5">
+                <a asp-controller="Anunturi" asp-action="Index" class="btn btn-lg btn-outline-primary-modern fw-bold rounded-pill">
+                    Explorează toate anunțurile
+                </a>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll(".favorite-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const anuntId = this.dataset.id;
+                const isFav = this.dataset.favorite === "true";
+                const icon = this.querySelector("i");
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch('/Favorite/ToggleFavorite', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `anuntId=${anuntId}&action=${(isFav ? "remove" : "add")}`
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+
+                        if (isFav) {
+                            // eliminăm din favorite
+                            icon.classList.remove("bi-heart-fill", "text-danger");
+                            icon.classList.add("bi-heart", "text-white");
+                            this.dataset.favorite = "false";
+                        } else {
+                            // adăugăm la favorite
+                            icon.classList.remove("bi-heart", "text-white");
+                            icon.classList.add("bi-heart-fill", "text-danger");
+                            this.dataset.favorite = "true";
+                        }
+
+                    } else {
+                        console.log(data.message);
+                    }
+                });
+            });
+        });
+    </script>
+}
