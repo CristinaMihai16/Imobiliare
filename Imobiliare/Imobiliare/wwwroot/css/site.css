@@ -1,36 +1,30 @@
 ﻿/* ==================================== */
 /* 1. PALETA DE CULORI MODERNĂ */
 /* ==================================== */
-/* ==================================== */
-/* 1. PALETA DE CULORI MODERNĂ (Revizuită) */
-/* ==================================== */
 :root {
-    /* Turcoazul tău deschis din imaginea cardului (Acvamarin) */
-    --color-primary-new: #75c5cb;
-    /* Culoarea de Acțiune (Fuchsia/Violet) rămâne pentru contrast puternic */
-    --color-secondary-modern: #C33FC3;
-    /* Culoarea de Acțiune pentru căutare/submit (Fuchsia) */
+    --color-primary-new: #75c5cb; /* Turcoaz */
+    --color-secondary-modern: #C33FC3; /* Fucsia/Violet */
     --color-action: #C33FC3;
-    /* Auriu pentru "Adaugă Anunț" */
-    --color-warning-modern: #FFD700;
+    --color-warning-modern: #FFD700; /* Auriu */
     --color-text-dark: #333333;
 }
 
-/* Stil pentru titlul secțiunii de Anunțuri Recente */
+/* ==================================== */
+/* 2. TITLURI, TEXT, BUTOANE GLOBALE */
+/* ==================================== */
+
 .text-section-title {
     color: var(--color-primary-new) !important;
     font-size: 2.2rem;
 }
 
-/* Stilul pentru Titlul Cardului și Butonul Vezi Detalii (Turcoaz deschis) */
-.text-primary-modern,
-.card-title {
-    color: var(--color-text-dark) !important; /* Facem titlul cardului mai lizibil */
+.card-title,
+.text-primary-modern {
+    color: var(--color-text-dark) !important;
 }
 
-/* Butonul Principal (Vezi Detalii / Explorează) */
-.btn-primary-modern,
-.btn-outline-primary-modern {
+/* Butoane principale */
+.btn-primary-modern {
     background-color: var(--color-primary-new);
     border-color: var(--color-primary-new);
     color: white !important;
@@ -41,9 +35,11 @@
         border-color: #5D9AA4;
     }
 
+/* Buton outline turcoaz */
 .btn-outline-primary-modern {
     background: none;
     color: var(--color-primary-new) !important;
+    border-color: var(--color-primary-new);
 }
 
     .btn-outline-primary-modern:hover {
@@ -51,7 +47,7 @@
         color: white !important;
     }
 
-/* Stil pentru Butonul de Căutare (Fuchsia) */
+/* Buton pentru căutare */
 .btn-search-action-modern {
     background-color: var(--color-secondary-modern);
     border-color: var(--color-secondary-modern);
@@ -63,28 +59,15 @@
         border-color: #A333A3;
     }
 
-/* Restul stilurilor rămân neschimbate... */
-/* Stil pentru Butonul Adaugă Anunț */
+/* Buton Add Anunț */
 .bg-warning-modern {
     background-color: var(--color-warning-modern) !important;
 }
 
-/* Stil pentru Outline Turcoaz */
-.btn-outline-primary-modern {
-    color: var(--color-primary-modern);
-    border-color: var(--color-primary-modern);
-}
-
-    .btn-outline-primary-modern:hover {
-        background-color: var(--color-primary-modern);
-        color: white;
-    }
-
 /* ==================================== */
-/* 2. LAYOUT ȘI COMPONENTE */
+/* 3. HERO HEADER */
 /* ==================================== */
 
-/* Stil pentru secțiunea Hero (Gradientul tău) */
 .hero-section {
     background-image: linear-gradient(rgba(195, 63, 195, 0.5), rgba(114, 178, 190, 0.6)), url('/images/hero_bg_elegant.jpg');
     background-size: cover;
@@ -93,38 +76,393 @@
     color: white;
 }
 
-/* Efect de umbră pe text pentru lizibilitate peste imaginea complexă */
 .text-shadow-lg {
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-/* Stil pentru formularul de căutare (opacitate mai mare) */
 .search-form-modern {
     background-color: rgba(255, 255, 255, 0.95) !important;
 }
 
-/* Stilul Cardului Modern */
+/* ==================================== */
+/* 4. CARDURI GENERALE */
+/* ==================================== */
+
 .card-modern {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
     .card-modern:hover {
-        transform: translateY(-5px); /* Efect de ridicare */
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     }
 
-/* Buton Favorite Modern */
-.btn-favorite-modern {
-    background-color: rgba(255, 255, 255, 0.95);
-    color: var(--color-secondary-modern);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--color-secondary-modern);
-}
-
+/* Input focus în carduri */
 .card .card-body input:focus,
 .card .card-body textarea:focus {
-    border-color: var(--color-primary-modern);
+    border-color: var(--color-primary-new);
     box-shadow: 0 0 0 0.25rem rgba(114, 178, 190, 0.25);
 }
+
+/* ==================================== */
+/* 5. FAVORITE (INIMIOARĂ) */
+/* ==================================== */
+
+.favorite-btn {
+    background: none !important;
+    border: none !important;
+    padding: 6px;
+    border-radius: 50%;
+    backdrop-filter: blur(8px);
+}
+
+    .favorite-btn i {
+        display: inline-block;
+        transition: transform 0.2s ease;
+    }
+
+    .favorite-btn:hover i {
+        transform: scale(1.2);
+    }
+
+.heart-animate {
+    animation: heartPop 0.35s ease;
+}
+
+@keyframes heartPop {
+    0% {
+        transform: scale(1);
+    }
+
+    35% {
+        transform: scale(1.45);
+        filter: drop-shadow(0 0 8px rgba(255,0,0,0.5));
+    }
+
+    55% {
+        transform: scale(0.85);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ==================================== */
+/* 6. GLOBAL LAYOUT FIXES */
+/* ==================================== */
+body {
+    padding-top: 70px !important; /* Fix pentru navbar peste pagini */
+}
+
+/* ==================================== */
+/* 7. PAGINA – ADAUGĂ ANUNȚ */
+/* ==================================== */
+
+.add-wrapper {
+    background: linear-gradient(135deg, #ffe6f7, #f7d4ff, #e2f2ff);
+    min-height: 100vh;
+}
+
+.add-title {
+    font-size: 42px;
+    color: #d63384;
+}
+
+.add-subtitle {
+    color: #b565d9;
+    font-size: 18px;
+}
+
+.add-card {
+    background: #ffffffdd;
+    backdrop-filter: blur(8px);
+    border-radius: 30px;
+    padding: 40px;
+    border: 1px solid #ffc2e9;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #d63384;
+    margin-bottom: 12px;
+}
+
+.add-input {
+    border-radius: 15px !important;
+    border: 2px solid #f3c1ff !important;
+    padding: 12px 15px !important;
+    transition: .3s ease;
+}
+
+    .add-input:focus {
+        border-color: #d63384 !important;
+        box-shadow: 0 0 0 0.25rem rgba(214, 51, 132, 0.25) !important;
+    }
+
+.add-btn {
+    background: linear-gradient(to right, #ff66b3, #d63384);
+    border: none;
+    color: white;
+    padding: 12px 35px;
+    border-radius: 18px;
+    font-size: 18px;
+    transition: .3s ease;
+}
+
+    .add-btn:hover {
+        opacity: .85;
+        box-shadow: 0 6px 18px rgba(214, 51, 132, 0.35);
+    }
+
+.back-link {
+    color: #d63384;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+.fade-in {
+    animation: fadeIn .6s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================================== */
+/* 8. DETALII ANUNȚ */
+/* ==================================== */
+
+.details-wrapper {
+    background: linear-gradient(135deg, #ffe6f7, #f8dfff, #e4f5ff);
+}
+
+.details-title {
+    color: #d63384;
+}
+
+.price-box {
+    background: white;
+    border-radius: 20px;
+    padding: 12px 25px;
+    font-size: 32px;
+    font-weight: 800;
+    color: #28a745;
+    border: 3px solid #d63384;
+}
+
+.details-image {
+    max-height: 480px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 18px 18px 0 0;
+}
+
+.details-card,
+.contact-card,
+.action-card {
+    background: #ffffffdd;
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+}
+
+.details-description {
+    font-size: 1.05rem;
+    color: #444;
+}
+
+.contact-header {
+    background: linear-gradient(90deg, #ff66b3, #d63384);
+    color: white;
+    padding: 12px;
+    font-weight: 700;
+}
+
+/* Contact buttons */
+.contact-btn {
+    background: #75c5cb;
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 18px;
+}
+
+    .contact-btn:hover {
+        opacity: .85;
+    }
+
+.contact-btn-outline {
+    border: 2px solid #75c5cb;
+    color: #75c5cb;
+    padding: 12px;
+    border-radius: 18px;
+    background: transparent;
+}
+
+    .contact-btn-outline:hover {
+        background: #75c5cb;
+        color: white;
+    }
+
+/* ==================================== */
+/* 9. ȘTERGERE ANUNȚ */
+/* ==================================== */
+
+.delete-wrapper {
+    background: linear-gradient(135deg, #ffe0f1, #f8dfff, #e3f7ff);
+}
+
+.delete-warning-card {
+    background: #fff0f5;
+    border-left: 6px solid #ff4d6d;
+}
+
+.delete-details-card {
+    background: #ffffffdd;
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+}
+
+/* Butoane delete page */
+.btn-delete-modern {
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    font-size: 18px;
+    border-radius: 14px;
+    transition: 0.2s ease;
+}
+
+    .btn-delete-modern:hover {
+        opacity: .85;
+    }
+
+.btn-cancel-modern {
+    background: #b39ddb;
+    color: white !important;
+    border: none;
+    font-size: 18px;
+    border-radius: 14px;
+}
+
+    .btn-cancel-modern:hover {
+        opacity: .85;
+    }
+
+dt {
+    color: var(--color-secondary-modern);
+    font-weight: 600;
+}
+
+dd {
+    margin-bottom: 10px;
+}
+
+.card-body dl {
+    font-size: 1.05rem;
+}
+
+
+/* --- Animatie fade-in --- */
+.fade-in {
+    animation: fadeIn .6s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Card profil glass --- */
+.profile-card {
+    background: #ffffffd8;
+    backdrop-filter: blur(12px);
+    border-radius: 30px;
+    border: 1px solid #ffd4f0;
+}
+
+/* --- Poză profil cerc --- */
+.profile-photo {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid white !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* --- Buton cameră peste poză --- */
+.profile-upload-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #d63384;
+    color: white;
+    border-radius: 50%;
+    padding: 10px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 3px solid white;
+    transition: .2s ease;
+}
+
+    .profile-upload-btn:hover {
+        background: #b92d72;
+    }
+
+/* --- Nume + subtitle --- */
+.profile-name {
+    color: #d63384;
+}
+
+.profile-subtitle {
+    color: #b565d9;
+    font-size: 15px;
+}
+
+/* --- Inputuri pastel rotunjite --- */
+.pretty-input {
+    border-radius: 15px !important;
+    border: 2px solid #f3c1ff !important;
+}
+
+    .pretty-input:focus {
+        border-color: #d63384 !important;
+        box-shadow: 0 0 0 .25rem rgba(214, 51, 132, .25);
+    }
+
+/* --- Buton salvare --- */
+.profile-save-btn {
+    background: linear-gradient(45deg, #ff66b3, #d63384);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 18px rgba(214, 51, 132, .35);
+}
+
+    .profile-save-btn:hover {
+        opacity: .9;
+    }

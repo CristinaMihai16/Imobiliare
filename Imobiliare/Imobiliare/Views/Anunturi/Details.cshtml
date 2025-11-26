@@ -2,88 +2,122 @@
 
 @{
     ViewData["Title"] = Model.Denumire;
+    Layout = "_Layout";
 }
 
-<div class="container py-5">
+<link rel="stylesheet" href="~/css/add.css" />
 
-    <div class="row mb-4 align-items-center">
-        <div class="col-md-9">
-            <h1 class="display-5 fw-bold text-primary-modern">@Model.Denumire</h1>
-            <p class="lead text-muted"><i class="bi bi-geo-alt-fill"></i> @Model.Locatie</p>
+<div class="details-wrapper py-5">
+
+    <div class="container fade-in">
+
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold details-title">@Model.Denumire</h1>
+                <p class="lead text-muted">
+                    <i class="bi bi-geo-alt-fill text-primary-modern"></i> @Model.Locatie
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <div class="price-box shadow-sm">
+                    <span>@Model.Pret.ToString("N0") €</span>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3 text-md-end">
-            <h2 class="display-6 fw-bolder text-success">@Model.Pret.ToString("N0") €</h2>
-        </div>
-    </div>
 
-    <hr class="mb-4" />
+        <div class="row">
 
-    <div class="row">
+            <div class="col-lg-8">
 
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0 rounded-4 mb-4">
-                <div class="card-img-top-container position-relative">
+                <div class="card details-card shadow-lg border-0 rounded-4 mb-4">
 
                     @{
                         string imgSrc = "";
                         if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
                         {
                             var base64 = Convert.ToBase64String(Model.Imagine_anunt);
-                            imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+                            imgSrc = $"data:image/jpeg;base64,{base64}";
                         }
-                        else
-                        {
-                            imgSrc = "https://via.placeholder.com/800x600?text=Fara+Imagine";
-                        }
+                        else imgSrc = "https://via.placeholder.com/800x600?text=Fara+Imagine";
                     }
 
-                    <img src="@imgSrc" class="card-img-top rounded-top-4" alt="@Model.Denumire" style="max-height: 500px; object-fit: cover;">
-                </div>
+                    <img src="@imgSrc"
+                         class="card-img-top rounded-top-4 details-image"
+                         alt="@Model.Denumire">
 
-                <div class="card-body">
-                    <h4 class="fw-bold mb-3">Descriere Proprietate</h4>
-                    <p class="card-text" style="white-space: pre-wrap;">@Model.Descriere</p>
+                    <div class="card-body p-4">
 
-                    <hr />
-                    <p class="text-muted small">Publicat pe: @Model.Data_publicare.ToShortDateString()</p>
-                </div>
-            </div>
-        </div>
+                        <h4 class="fw-bold mb-3 details-section-title">Descrierea proprietății</h4>
 
+                        <p class="details-description">
+                            @Model.Descriere
+                        </p>
 
-        <div class="col-lg-4">
+                        <hr />
 
-            @if (Model.Utilizator != null)
-            {
-                <div class="card mb-4 shadow-sm rounded-4 border-primary">
-                    <div class="card-header fw-bold bg-primary text-white">Contact Vânzător</div>
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold">@Model.Utilizator.Nume @Model.Utilizator.Prenume</h5>
-
-                        <a href="tel:@Model.Utilizator.Telefon" class="btn btn-success w-100 mb-2">
-                            <i class="bi bi-telephone-fill"></i> Sunați (@Model.Utilizator.Telefon)
-                        </a>
-
-                        <a href="mailto:@Model.Utilizator.Email" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-envelope-fill"></i> Trimite Email
-                        </a>
+                        <p class="text-muted small fst-italic">
+                            Publicat pe: <strong>@Model.Data_publicare.ToShortDateString()</strong>
+                        </p>
                     </div>
                 </div>
-            }
-            else
-            {
-                <div class="alert alert-warning">Detalii vânzător indisponibile.</div>
-            }
 
-
-            <div class="card mb-4 shadow-sm rounded-4">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold mb-3">Acțiuni</h5>
-                    <a asp-action="Edit" asp-route-id="@Model.ID_Anunt" class="btn btn-warning w-100 mb-2"><i class="bi bi-pencil-square"></i> Editează Anunțul</a>
-                    <a asp-action="Delete" asp-route-id="@Model.ID_Anunt" class="btn btn-danger w-100 mb-2"><i class="bi bi-trash"></i> Șterge Anunțul</a>
-                    <a asp-action="Index" class="btn btn-secondary w-100 mt-3"><i class="bi bi-arrow-left"></i> Înapoi la listă</a>
-                </div>
             </div>
+
+            <div class="col-lg-4 fade-in">
+
+                @if (Model.Utilizator != null)
+                {
+                    <div class="card contact-card shadow-lg mb-4 rounded-4">
+                        <div class="card-header contact-header rounded-top-4">
+                            <i class="bi bi-person-fill"></i> Contact Vânzător
+                        </div>
+
+                        <div class="card-body text-center">
+                            <h5 class="fw-bold mb-3">
+                                @Model.Utilizator.Nume @Model.Utilizator.Prenume
+                            </h5>
+
+                            <a href="tel:@Model.Utilizator.Telefon" class="btn contact-btn w-100 mb-2">
+                                <i class="bi bi-telephone-fill"></i> Sună: @Model.Utilizator.Telefon
+                            </a>
+
+                            <a href="mailto:@Model.Utilizator.Email" class="btn contact-btn-outline w-100">
+                                <i class="bi bi-envelope-fill"></i> Trimite Email
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning shadow-sm rounded-4">
+                        Detalii vânzător indisponibile.
+                    </div>
+                }
+
+                <div class="card action-card shadow-lg rounded-4">
+                    <div class="card-body p-4 text-center">
+
+                        <h5 class="fw-bold mb-3 details-section-title">Acțiuni</h5>
+
+                        <a asp-action="Edit" asp-route-id="@Model.ID_Anunt"
+                           class="btn action-edit w-100 mb-3">
+                            <i class="bi bi-pencil-square"></i> Editează Anunțul
+                        </a>
+
+                        <a asp-action="Delete" asp-route-id="@Model.ID_Anunt"
+                           class="btn action-delete w-100 mb-3">
+                            <i class="bi bi-trash"></i> Șterge Anunțul
+                        </a>
+
+                        <a asp-action="Index" class="btn action-back w-100 mt-3">
+                            <i class="bi bi-arrow-left-circle"></i> Înapoi la listă
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>

@@ -1,14 +1,79 @@
-﻿.toast {
+﻿/* ---------- FUNDAL FEMININ ---------- */
+.contact-wrapper {
+    background: linear-gradient(135deg, #ffe6f7, #f7d4ff, #e2f2ff);
+    padding: 60px 20px;
+    min-height: 100vh;
+}
+
+/* Card feminin */
+.contact-card {
+    background: #ffffffcc;
+    backdrop-filter: blur(6px);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid #ffc2e9;
+}
+
+/* Titlu */
+.contact-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: #d63384;
+}
+
+.contact-subtitle {
+    color: #b565d9;
+    font-size: 18px;
+}
+
+/* Input feminin */
+.contact-input {
+    border-radius: 15px !important;
+    border: 2px solid #f3c1ff !important;
+    padding: 12px 18px !important;
+}
+
+    .contact-input:focus {
+        border-color: #d63384 !important;
+        box-shadow: 0 0 0 0.25rem rgba(214, 51, 132, 0.25) !important;
+    }
+
+/* Buton feminin */
+.contact-btn {
+    background: linear-gradient(to right, #ff66b3, #d63384);
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 15px;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+
+    .contact-btn:hover {
+        opacity: 0.9;
+        box-shadow: 0 6px 15px rgba(214, 51, 132, 0.35);
+    }
+
+/* Icon cute */
+.contact-icon {
+    font-size: 60px;
+    color: #d63384;
+}
+
+/* Toast */
+.toast {
     position: fixed;
     top: 20px;
     right: 20px;
-    padding: 16px 24px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 18px 26px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     transform: translateX(400px);
-    transition: transform 0.3s ease;
-    z-index: 1000;
-    max-width: 300px;
+    transition: transform 0.35s ease;
+    z-index: 9999;
+    font-weight: 600;
 }
 
     .toast.show {
@@ -16,11 +81,90 @@
     }
 
     .toast.success {
-        background-color: #10b981;
+        background: #38d9a9;
         color: white;
     }
 
     .toast.error {
-        background-color: #ef4444;
+        background: #ff6b6b;
         color: white;
     }
+/* ============================= */
+/* PAGINA DE CONFIRMARE FEMININĂ */
+/* ============================= */
+
+.confirm-wrapper {
+    background: linear-gradient(135deg, #ffe6f7, #f7d4ff, #e2f2ff);
+    min-height: 100vh;
+    padding: 90px 20px;
+}
+
+.confirm-card {
+    max-width: 580px;
+    width: 100%;
+    background: #ffffffcc;
+    backdrop-filter: blur(8px);
+    border-radius: 30px;
+    padding: 40px 35px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border: 1px solid #ffc2e9;
+    animation: fadeIn 0.7s ease;
+}
+
+.confirm-icon-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px auto;
+    background: #e8ffef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .confirm-icon-wrapper i {
+        font-size: 65px;
+        color: #38d98c;
+    }
+
+.confirm-title {
+    font-size: 38px;
+    font-weight: 900;
+    color: #d63384;
+}
+
+.confirm-subtitle {
+    font-size: 18px;
+    color: #b565d9;
+    margin: 10px 0 25px;
+}
+
+.confirm-btn {
+    display: inline-block;
+    padding: 12px 26px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(to right, #ff66b3, #d63384);
+    border-radius: 18px;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+    .confirm-btn:hover {
+        opacity: 0.85;
+        box-shadow: 0 8px 20px rgba(214, 51, 132, 0.35);
+    }
+
+/* animație apariție */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

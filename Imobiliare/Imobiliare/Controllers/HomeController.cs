@@ -3,7 +3,7 @@ using Imobiliare.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Imobiliare.Data;
-using System.Security.Claims; // NECESAR pentru ID utilizator
+using System.Security.Claims; 
 
 namespace Imobiliare.Controllers
 {
@@ -20,18 +20,14 @@ namespace Imobiliare.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // 1. Luăm cele mai noi 3 anunțuri
             var anunturiRecente = await _context.Anunturi
                 .OrderByDescending(a => a.Data_publicare)
                 .Take(3)
                 .ToListAsync();
 
-            // 2. Obținem ID-ul utilizatorului logat (dacă există)
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<int?> favoriteIds = new List<int?>();
 
-
-            // 3. Dacă utilizatorul este logat, extragem favoritele lui
             if (userIdString != null)
             {
                 int userId = int.Parse(userIdString);
@@ -42,12 +38,11 @@ namespace Imobiliare.Controllers
                     .ToListAsync();
             }
 
-            // 4. Trimitem ID-urile favorite către View (pentru inimioare colorate)
             ViewBag.FavoriteIds = favoriteIds;
 
-            // 5. Întoarcem view-ul cu anunțurile
             return View(anunturiRecente);
         }
+
 
         public IActionResult Privacy()
         {

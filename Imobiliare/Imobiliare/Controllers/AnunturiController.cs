@@ -23,8 +23,28 @@ namespace Imobiliare.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Anunturi.ToListAsync());
+            var anunturi = await _context.Anunturi
+                .OrderByDescending(a => a.Data_publicare)
+                .ToListAsync();
+
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<int?> favoriteIds = new List<int?>();
+
+            if (userIdString != null)
+            {
+                int userId = int.Parse(userIdString);
+
+                favoriteIds = await _context.Favorite
+                    .Where(f => f.ID_Utilizator == userId)
+                    .Select(f => f.ID_Anunt)
+                    .ToListAsync();
+            }
+
+            ViewBag.FavoriteIds = favoriteIds;
+
+            return View(anunturi);
         }
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -59,13 +79,13 @@ namespace Imobiliare.Controllers
             ModelState.Remove(nameof(model.Imagine_anunt));
             ModelState.Remove(nameof(model.Conversatie));
 
-            // CHEIA MAGICĂ:
-            ModelState.Remove("ImagineFile");  // <- fără asta, obligatoriu imaginea!
+            
+            ModelState.Remove("ImagineFile");  
 
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             model.ID_Utilizator = int.Parse(userIdString);
 
-            // Procesăm imaginea — opțională
+            
             if (ImagineFile != null && ImagineFile.Length > 0)
             {
                 using (var memoryStream = new MemoryStream())
@@ -123,9 +143,8 @@ namespace Imobiliare.Controllers
             if (anuntExistent == null)
                 return NotFound();
 
-            // VERIFICAREA MAGICĂ - OBLIGATORIE
             ModelState.Remove(nameof(model.Imagine_anunt));
-            ModelState.Remove("ImagineFile");   // 🔥 PROBLEMA TA ERA AICI !!!
+            ModelState.Remove("ImagineFile");   
             ModelState.Remove(nameof(model.Data_publicare));
             ModelState.Remove(nameof(model.ID_Utilizator));
 
@@ -203,6 +222,19 @@ namespace Imobiliare.Controllers
         private bool AnunturiExists(int id)
         {
             return _context.Anunturi.Any(e => e.ID_Anunt == id);
+        }
+        [Authorize]
+        public async Task<IActionResult> AnunturileMele()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int userId = int.Parse(userIdString);
+
+            var anunturileMele = await _context.Anunturi
+                .Where(a => a.ID_Utilizator == userId)
+                .OrderByDescending(a => a.Data_publicare)
+                .ToListAsync();
+
+            return View(anunturileMele);
         }
     }
 }

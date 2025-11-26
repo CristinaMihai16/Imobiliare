@@ -1,20 +1,33 @@
 ﻿@{
     ViewData["Title"] = "Confirmare";
     Layout = "_Layout";
-
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Mesajul tău a fost trimis!</h1>
-        <p>Îți mulțumim pentru mesaj. Vom răspunde în cel mai scurt timp posibil.</p>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Înapoi la pagina principală</a>
+<link rel="stylesheet" href="~/css/contact.css" />
+
+<main class="confirm-wrapper">
+
+    <div class="container d-flex justify-content-center">
+        <div class="confirm-card text-center">
+
+            <div class="confirm-icon-wrapper">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+
+            <h1 class="confirm-title">Mesaj trimis cu succes! 💖</h1>
+
+            <p class="confirm-subtitle">
+                Îți mulțumim pentru mesaj!
+                Te vom contacta în cel mai scurt timp.
+            </p>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="confirm-btn">
+                Înapoi la pagina principală
+            </a>
+
+        </div>
     </div>
-</body>
-</html>
+
+</main>

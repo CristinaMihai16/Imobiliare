@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bgotKnG/QIc=",
+  "dgSpecHash": "9KEz+Gs1kPE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\OneDrive\\Desktop\\Imobiliare\\Imobiliare\\Imobiliare.csproj",
+  "projectFilePath": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\Imobiliare.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

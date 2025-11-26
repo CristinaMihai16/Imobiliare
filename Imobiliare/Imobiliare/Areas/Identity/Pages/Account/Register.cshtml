@@ -1,100 +1,122 @@
 ﻿@page
 @model RegisterModel
+
 @{
-    // Titlu și Layout
-    ViewData["Title"] = "Înregistrare Cont";
-    Layout = "/Views/Shared/_Layout.cshtml"; // Asigură-te că ruta către _Layout e corectă
+    ViewData["Title"] = "Creare Cont Nou";
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<main class="container py-5 mt-5">
+<main class="container py-5 mt-5 fade-in">
     <div class="row justify-content-center">
         <div class="col-lg-7">
-            
-            <h1 class="display-5 fw-bold text-secondary-modern text-center mb-4">
-                Înregistrare 
+
+            <h1 class="display-5 fw-bold text-center mb-3" style="color:#d63384;">
+                Creează-ți un cont
             </h1>
-            <p class="text-center text-muted mb-5">
-                Creează-ți contul pentru a putea publica anunțuri.
+            <p class="text-center mb-5" style="color:#b565d9;">
+                Înregistrează-te pentru a publica și gestiona propriile anunțuri.
             </p>
 
-            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="p-5 shadow-lg rounded-4">
-                
-                <hr />
-                
-                <div asp-validation-summary="ModelOnly" class="text-danger fw-bold mb-4" role="alert"></div>
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.Nume" class="form-control" aria-required="true" placeholder="Nume" />
-                            <label asp-for="Input.Nume">Nume</label>
-                            <span asp-validation-for="Input.Nume" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.Prenume" class="form-control" aria-required="true" placeholder="Prenume" />
-                            <label asp-for="Input.Prenume">Prenume</label>
-                            <span asp-validation-for="Input.Prenume" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
+            <div class="add-card shadow-lg">
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.Telefon" class="form-control" placeholder="Telefon" />
-                            <label asp-for="Input.Telefon">Telefon</label>
-                            <span asp-validation-for="Input.Telefon" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.Adresa" class="form-control" placeholder="Adresă" />
-                            <label asp-for="Input.Adresa">Adresă</label>
-                            <span asp-validation-for="Input.Adresa" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <hr class="my-4" />
-                
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password">Parolă</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.ConfirmPassword">Confirmă Parola</label>
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
 
-                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-search-action-modern fw-bold mt-4">
-                    Înregistrează-te
-                </button>
-                
-                @if ((Model.ExternalLogins?.Count ?? 0) != 0)
-                {
-                    <div class="mt-4 text-center">
-                        <p class="text-muted">sau folosește un serviciu extern</p>
-                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                            <div>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-outline-secondary me-2" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger fw-bold mb-4 text-center">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Nume" class="form-control add-input"
+                                       placeholder="Nume" />
+                                <label asp-for="Input.Nume">Nume</label>
+                                <span asp-validation-for="Input.Nume" class="text-danger"></span>
                             </div>
-                        </form>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Prenume" class="form-control add-input"
+                                       placeholder="Prenume" />
+                                <label asp-for="Input.Prenume">Prenume</label>
+                                <span asp-validation-for="Input.Prenume" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                }
-            </form>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control add-input"
+                               autocomplete="username" placeholder="email@example.com" />
+                        <label asp-for="Input.Email">Email</label>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Telefon" class="form-control add-input"
+                                       placeholder="Telefon" />
+                                <label asp-for="Input.Telefon">Telefon</label>
+                                <span asp-validation-for="Input.Telefon" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Adresa" class="form-control add-input"
+                                       placeholder="Adresă completă" />
+                                <label asp-for="Input.Adresa">Adresă</label>
+                                <span asp-validation-for="Input.Adresa" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Password" class="form-control add-input"
+                               autocomplete="new-password" placeholder="Parolă" />
+                        <label asp-for="Input.Password">Parolă</label>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ConfirmPassword" class="form-control add-input"
+                               autocomplete="new-password" placeholder="Confirmare parolă" />
+                        <label asp-for="Input.ConfirmPassword">Confirmă Parola</label>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <button id="registerSubmit" type="submit"
+                            class="add-btn w-100 fw-bold mt-4">
+                        Creează contul
+                    </button>
+
+                    @if ((Model.ExternalLogins?.Count ?? 0) != 0)
+                    {
+                        <div class="mt-4 text-center">
+                            <p class="text-muted">sau folosește un serviciu extern</p>
+
+                            <form id="external-account"
+                                  asp-page="./ExternalLogin"
+                                  asp-route-returnUrl="@Model.ReturnUrl"
+                                  method="post">
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button type="submit"
+                                            class="btn btn-outline-secondary me-2"
+                                            name="provider" value="@provider.Name">
+                                        @provider.DisplayName
+                                    </button>
+                                }
+                            </form>
+                        </div>
+                    }
+
+                </form>
+            </div>
+
         </div>
     </div>
 </main>

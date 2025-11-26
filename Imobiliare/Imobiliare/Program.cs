@@ -14,8 +14,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ImobiliareContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ImobiliareDatabase")));
 
-//builder.Services.AddDefaultIdentity<Utilizator>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ImobiliareContext>();
-
 builder.Services.AddIdentity<Utilizator, IdentityRole<int>>()
     .AddEntityFrameworkStores<ImobiliareContext>()
     .AddDefaultTokenProviders();

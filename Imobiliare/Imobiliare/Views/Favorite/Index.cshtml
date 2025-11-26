@@ -1,47 +1,106 @@
 ﻿@model IEnumerable<Imobiliare.Models.Favorite>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Favoritele Mele";
+    Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<div class="container py-5">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Data_adaugare)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Utilizator)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Anunturi)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data_adaugare)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Utilizator.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Anunturi.ID_Anunt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID_Favorite">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID_Favorite">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID_Favorite">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-section-title">Favoritele Mele</h1>
+        <p class="text-muted">Proprietățile salvate în lista ta.</p>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="text-end mb-4">
+            <form asp-action="DeleteAll" method="post"
+                  onsubmit="return confirm('Ești sigur că vrei să elimini TOATE favoritele?');">
+
+                <button type="submit"
+                        class="btn btn-danger btn-lg rounded-pill px-4">
+                    <i class="bi bi-trash3"></i> Șterge toate favoritele
+                </button>
+            </form>
+        </div>
+    }
+
+    <div class="row justify-content-center">
+
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center mt-4">
+                <h4 class="text-muted">Nu ai adăugat niciun anunț la favorite.</h4>
+                <a href="/Anunturi" class="btn btn-primary-modern mt-3">
+                    Vezi Anunțuri
+                </a>
+            </div>
+        }
+        else
+        {
+            foreach (var fav in Model)
+            {
+                var anunt = fav.Anunturi;
+
+                string imgSrc = anunt.Imagine_anunt != null && anunt.Imagine_anunt.Length > 0
+                ? $"data:image/jpeg;base64,{Convert.ToBase64String(anunt.Imagine_anunt)}"
+                : "https://via.placeholder.com/400x300?text=Fara+Imagine";
+
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
+
+                    <div class="card h-100 shadow-lg border-0 rounded-4 card-modern overflow-hidden">
+
+                        <div class="position-relative">
+
+                            <img src="@imgSrc"
+                                 class="card-img-top"
+                                 style="height: 250px; width: 100%; object-fit: cover;"
+                                 alt="@anunt.Denumire" />
+
+                            <span class="badge bg-dark position-absolute bottom-0 start-0 m-3 fs-5 p-2">
+                                @anunt.Pret.ToString("N0") €
+                            </span>
+
+                            <form method="post"
+                                  action="/Favorite/Delete/@fav.ID_Favorite"
+                                  class="position-absolute top-0 end-0 m-3"
+                                  style="z-index:999;">
+
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger rounded-circle shadow"
+                                        style="width: 42px; height: 42px;">
+                                    <i class="bi bi-trash text-white"></i>
+                                </button>
+
+                            </form>
+
+
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+
+                            <h5 class="card-title fw-bold">@anunt.Denumire</h5>
+
+                            <p class="card-text text-muted mb-3">
+                                <i class="bi bi-geo-alt-fill"></i> @anunt.Locatie
+                            </p>
+
+                            <a href="/Anunturi/Details/@anunt.ID_Anunt"
+                               class="btn btn-primary-modern mt-auto">
+                                Vezi Detalii <i class="bi bi-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+
+</div>

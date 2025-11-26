@@ -1,72 +1,101 @@
 ﻿@page
 @model IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     ViewData["Title"] = "Profilul Meu";
     ViewData["ActivePage"] = ManageNavPages.Index;
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<main class="container py-5 mt-5">
+<main class="container py-5 mt-5 fade-in">
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            <h1 class="display-5 fw-bold text-secondary-modern text-center mb-4">
-                <i class="bi bi-person-gear"></i> Setări Cont
-            </h1>
-            <p class="text-center text-muted mb-5">
-                Editează informațiile personale din profilul tău de utilizator.
-            </p>
-
             <partial name="_StatusMessage" for="StatusMessage" />
 
-            <div class="card shadow-lg border-0 rounded-4 p-4">
-                <div class="card-body">
-                    <div class="row">
+            <div class="profile-card shadow-lg border-0 rounded-4 p-4 position-relative">
 
-                        <div class="col-md-8 mx-auto">
-                            <form id="profile-form" method="post">
-                                <h4 class="text-primary-modern fw-bold mb-4">Informații Personale</h4>
-                                <div asp-validation-summary="ModelOnly" class="text-danger fw-bold mb-3" role="alert"></div>
+                <form id="profile-form" method="post" enctype="multipart/form-data">
 
-                                <div class="form-floating mb-3">
-                                    <input asp-for="Username" class="form-control" placeholder="Email" disabled />
-                                    <label asp-for="Username" class="form-label">Email</label>
-                                </div>
+                    <div class="d-flex justify-content-center position-relative" style="margin-top: -80px;">
+                        <div class="position-relative">
+
+                            <img id="profilePreview"
+                                 src="@Model.UserImage"
+                                 class="rounded-circle shadow-lg border border-5 border-white profile-photo"
+                                 alt="Poză profil" />
+
+                            <label for="uploadInput"
+                                   class="profile-upload-btn"
+                                   title="Schimbă poza">
+                                <i class="bi bi-camera-fill"></i>
+                            </label>
+
+                            <input asp-for="Input.ImagineUpload"
+                                   id="uploadInput"
+                                   type="file"
+                                   class="d-none"
+                                   accept="image/*"
+                                   onchange="previewImage(this)" />
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-2">
+                        <span asp-validation-for="Input.ImagineUpload" class="text-danger fw-bold bg-white px-2 rounded"></span>
+                    </div>
+
+                    <div class="card-body pt-2">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold profile-name">@Model.Username</h3>
+                            <p class="profile-subtitle">Gestionează datele profilului tău</p>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-10 mx-auto">
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger fw-bold mb-3"></div>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input asp-for="Input.Nume" class="form-control" placeholder="Nume" />
-                                            <label asp-for="Input.Nume" class="form-label">Nume</label>
+                                            <input asp-for="Input.Nume" class="form-control pretty-input" placeholder="Nume" />
+                                            <label asp-for="Input.Nume">Nume</label>
+                                            <span asp-validation-for="Input.Nume" class="text-danger"></span>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input asp-for="Input.Prenume" class="form-control" placeholder="Prenume" />
-                                            <label asp-for="Input.Prenume" class="form-label">Prenume</label>
+                                            <input asp-for="Input.Prenume" class="form-control pretty-input" placeholder="Prenume" />
+                                            <label asp-for="Input.Prenume">Prenume</label>
+                                            <span asp-validation-for="Input.Prenume" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input asp-for="Input.Telefon" class="form-control" placeholder="Număr de telefon." />
-                                    <label asp-for="Input.Telefon" class="form-label">Telefon</label>
+                                    <input asp-for="Input.Telefon" class="form-control pretty-input" placeholder="Telefon" />
+                                    <label asp-for="Input.Telefon">Telefon</label>
                                     <span asp-validation-for="Input.Telefon" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-floating mb-4">
-                                    <input asp-for="Input.Adresa" class="form-control" placeholder="Adresa ta" />
-                                    <label asp-for="Input.Adresa" class="form-label">Adresă</label>
+                                    <input asp-for="Input.Adresa" class="form-control pretty-input" placeholder="Adresa" />
+                                    <label asp-for="Input.Adresa">Adresă</label>
                                     <span asp-validation-for="Input.Adresa" class="text-danger"></span>
                                 </div>
 
-                                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-search-action-modern fw-bold">
+                                <button id="update-profile-button"
+                                        type="submit"
+                                        class="w-100 btn btn-lg profile-save-btn fw-bold rounded-3">
                                     <i class="bi bi-save"></i> Salvează modificările
                                 </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                </form>
             </div>
 
         </div>
@@ -75,4 +104,16 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePreview').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 }

@@ -6,7 +6,7 @@
 }
 
 <main>
-    @Html.AntiForgeryToken()  <!-- TOKEN NECESAR AJAX -->
+    @Html.AntiForgeryToken()
 
     <section class="hero-section text-white text-center d-flex align-items-center justify-content-center" style="margin-top: 56px;">
         <div class="container">
@@ -53,12 +53,13 @@
                     {
                         var favList = ViewBag.FavoriteIds as List<int?>;
                         bool isFav = favList != null && favList.Contains(item.ID_Anunt);
+                    
 
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                             <div class="card h-100 shadow-lg border-0 rounded-4 card-modern overflow-hidden">
                                 <div class="card-img-top-container position-relative">
 
-                                    @* --- FOTO --- *@
+                                    
                                     @{
                                         string imgSrc = "";
                                         if (item.Imagine_anunt != null && item.Imagine_anunt.Length > 0)
@@ -75,17 +76,16 @@
                                     <img src="@imgSrc" class="card-img-top" alt="@item.Denumire"
                                          style="height: 250px; object-fit: cover; width: 100%;">
 
-                                    @* --- PREȚ --- *@
+                                    
                                     <span class="badge bg-dark position-absolute bottom-0 start-0 m-3 fs-5 p-2">
                                         @item.Pret.ToString("N0") €
                                     </span>
 
-                                    @* --- INIMĂ FAVORITE --- *@
+                                    
                                     <button class="favorite-btn btn btn-sm position-absolute top-0 end-0 m-3"
                                             data-id="@item.ID_Anunt"
-                                            data-favorite="@isFav"
+                                            data-favorite="@(isFav.ToString().ToLower())"
                                             style="background: transparent; border: none;">
-
                                         <i class="bi @(isFav ? "bi-heart-fill text-danger" : "bi-heart text-white") fs-2"></i>
 
                                     </button>
@@ -129,17 +129,18 @@
     <script>
         document.querySelectorAll(".favorite-btn").forEach(btn => {
             btn.addEventListener("click", function () {
+
                 const anuntId = this.dataset.id;
                 const isFav = this.dataset.favorite === "true";
                 const icon = this.querySelector("i");
 
-                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const token = document.querySelector("input[name='__RequestVerificationToken']").value;
 
                 fetch('/Favorite/ToggleFavorite', {
                     method: 'POST',
                     headers: {
-                        'RequestVerificationToken': token,
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': token
                     },
                     body: `anuntId=${anuntId}&action=${(isFav ? "remove" : "add")}`
                 })
@@ -147,20 +148,22 @@
                 .then(data => {
                     if (data.success) {
 
+                        icon.classList.add("heart-animate");
+                        setTimeout(() => icon.classList.remove("heart-animate"), 350);
+
                         if (isFav) {
-                            // eliminăm din favorite
+
                             icon.classList.remove("bi-heart-fill", "text-danger");
                             icon.classList.add("bi-heart", "text-white");
+
                             this.dataset.favorite = "false";
-                        } else {
-                            // adăugăm la favorite
+                        }
+                        else {
+
                             icon.classList.remove("bi-heart", "text-white");
                             icon.classList.add("bi-heart-fill", "text-danger");
                             this.dataset.favorite = "true";
                         }
-
-                    } else {
-                        console.log(data.message);
                     }
                 });
             });

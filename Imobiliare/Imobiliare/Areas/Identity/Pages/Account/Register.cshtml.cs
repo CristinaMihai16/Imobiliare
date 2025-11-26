@@ -175,7 +175,6 @@ namespace Imobiliare.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 
@@ -185,15 +184,13 @@ namespace Imobiliare.Areas.Identity.Pages.Account
             {
                 var user = Activator.CreateInstance<Utilizator>();
 
-                // Setăm valorile suplimentare din formular
                 user.Nume = Input.Nume;
                 user.Prenume = Input.Prenume;
                 user.Telefon = Input.Telefon;
                 user.Adresa = Input.Adresa;
                 user.Data_creare = DateTime.UtcNow;
 
-                // Setăm Tip_utilizator implicit pentru un utilizator nou înregistrat
-                user.Tip_utilizator = "Autentificat"; // Sau "Client"
+                user.Tip_utilizator = "Autentificat"; 
 
                 return user;
             }

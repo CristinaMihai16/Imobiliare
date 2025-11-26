@@ -2,78 +2,92 @@
 
 @{
     ViewData["Title"] = $"Șterge: {Model.Denumire}";
+    Layout = "_Layout";
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
+<link rel="stylesheet" href="~/css/add.css" />
 
-            <div class="card shadow-lg border-0 rounded-4 p-4 mb-4">
-                <div class="card-body text-center">
+<div class="delete-wrapper py-5 fade-in">
 
-                    <h1 class="display-5 fw-bold text-danger mb-3">⚠️ Confirmă ștergerea anunțului</h1>
-                    <h3 class="lead mb-4">Ești sigur că vrei să ștergi definitiv anunțul? Această acțiune nu poate fi anulată.</h3>
-                </div>
+    <div class="container">
+
+        <div class="card shadow-lg border-0 rounded-4 p-5 mb-5 delete-warning-card">
+            <div class="text-center">
+
+                <h1 class="display-6 fw-bold text-danger mb-3">
+                    ⚠️ Ștergere definitivă
+                </h1>
+
+                <p class="lead text-muted">
+                    Ești sigură că vrei să ștergi anunțul?
+                    <br />
+                    <strong>Această acțiune nu poate fi anulată.</strong>
+                </p>
+
+            </div>
+        </div>
+
+        <div class="card shadow-lg border-0 rounded-4 p-4 delete-details-card">
+
+            <div class="text-center mb-4">
+
+                @{
+                    string imgSrc = "";
+                    if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Imagine_anunt);
+                        imgSrc = $"data:image/jpeg;base64,{base64}";
+                    }
+                    else
+                    {
+                        imgSrc = "https://via.placeholder.com/600x300?text=Fara+Imagine";
+                    }
+                }
+
+                <img src="@imgSrc"
+                     class="rounded-4 shadow-sm"
+                     alt="@Model.Denumire"
+                     style="max-height: 260px; object-fit: cover;">
+
             </div>
 
-            <div class="card border-danger shadow-sm rounded-4">
-                <div class="card-header bg-danger text-white fw-bold">
-                </div>
-                <div class="card-body">
+            <dl class="row mb-0 align-items-center">
+                <dt class="col-sm-3 fw-bold text-secondary">@Html.DisplayNameFor(model => model.Denumire)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Denumire)</dd>
 
-                    <div class="mb-4 text-center">
-                        @{
-                            string imgSrc = "";
-                            if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
-                            {
-                                var base64 = Convert.ToBase64String(Model.Imagine_anunt);
-                                imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
-                            }
-                            else
-                            {
-                                imgSrc = "https://via.placeholder.com/600x300?text=Fara+Imagine";
-                            }
-                        }
-                        <img src="@imgSrc" alt="@Model.Denumire" class="img-thumbnail rounded" style="max-height: 250px; object-fit: cover;" />
-                    </div>
+                <dt class="col-sm-3 fw-bold text-secondary">Preț</dt>
+                <dd class="col-sm-9 text-success fw-bold">@Model.Pret.ToString("N0") €</dd>
 
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Denumire)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Denumire)</dd>
+                <dt class="col-sm-3 fw-bold text-secondary">Locație</dt>
+                <dd class="col-sm-9">@Model.Locatie</dd>
 
-                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Pret)</dt>
-                        <dd class="col-sm-8 text-success fw-bold">@Model.Pret.ToString("N0") €</dd>
+                <dt class="col-sm-3 fw-bold text-secondary">Descriere</dt>
+                <dd class="col-sm-9">@Model.Descriere</dd>
+            </dl>
 
-                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Locatie)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Locatie)</dd>
-
-                        <dt class="col-sm-4 fw-bold">@Html.DisplayNameFor(model => model.Descriere)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Descriere)</dd>
-
-                    </dl>
-                </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <form asp-action="Delete">
-                    <input type="hidden" asp-for="ID_Anunt" />
-
-                    <button type="submit" class="btn btn-danger btn-lg px-5 fw-bold me-3">
-                        <i class="bi bi-trash"></i> Șterge
-                    </button>
-
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
-                        <i class="bi bi-arrow-left"></i> Anulează 
-                    </a>
-                </form>
-            </div>
 
         </div>
+
+        <div class="text-center mt-5">
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="ID_Anunt" />
+
+                <button type="submit" class="btn btn-delete-modern px-5 py-2 fw-bold me-3">
+                    <i class="bi bi-trash-fill"></i> Șterge definitiv
+                </button>
+
+                <a asp-action="Index" class="btn btn-cancel-modern px-4 py-2 fw-bold">
+                    <i class="bi bi-arrow-left-circle"></i> Anulează
+                </a>
+
+            </form>
+
+        </div>
+
     </div>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

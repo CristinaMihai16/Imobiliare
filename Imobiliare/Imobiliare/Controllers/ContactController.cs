@@ -1,7 +1,7 @@
 ﻿using Imobiliare.Data;
 using Imobiliare.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims; // RĂMÂNE NECESAR PENTRU User.FindFirstValue
+using System.Security.Claims; 
 
 namespace Imobiliare.Controllers
 {

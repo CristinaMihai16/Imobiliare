@@ -7,10 +7,11 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Imobiliare.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-
 </head>
+
+
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
@@ -23,7 +24,6 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 
-                    <!-- LINK CONTACT (Rămâne vizibil întotdeauna) -->
                     <ul class="navbar-nav align-items-center me-3">
                         <li class="nav-item">
                             <a class="nav-link" href="/Contact">Contact</a>
@@ -34,7 +34,6 @@
                             <a class="nav-link" href="/Favorite">Favorite</a>
                         </li>
                     </ul>
-                    <!-- AICI SE INTEGREAZĂ LOGICA DINAMICĂ DE AUTENTIFICARE -->
                     <partial name="_LoginPartial" />
 
                 </div>
@@ -46,7 +45,9 @@
             @RenderBody()
         </main>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
