@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Imobiliare.Models.Anunturi>
+﻿@using System.Security.Claims
+@model IEnumerable<Imobiliare.Models.Anunturi>
 
 <main class="container py-5">
 
@@ -12,16 +13,31 @@
         {
             var favList = ViewBag.FavoriteIds as List<int?>;
 
+            // 1. Preluăm ID-ul utilizatorului logat
+            var currentUserIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int currentUserId = 0;
+            int.TryParse(currentUserIdStr, out currentUserId);
+
             foreach (var item in Model)
             {
                 bool isFav = favList != null && favList.Contains(item.ID_Anunt);
+
+                // 1. Identificare user și roluri
+                bool isAdmin = User.IsInRole("Administrator"); // Verificăm dacă e Admin
+                bool isOwner = User.Identity.IsAuthenticated && (currentUserId == item.ID_Utilizator); // Verificăm dacă e Proprietar
+
+                // 2. Stabilirea permisiunilor EXACT cum ai cerut
+                // Editare: DOAR dacă ești proprietarul anunțului (Adminul nu editează textele altora)
+                bool canEdit = isOwner;
+
+                // Ștergere: Dacă ești proprietar SAU dacă ești Admin (ca să poți modera)
+                bool canDelete = isOwner || isAdmin;
 
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
 
                     <div class="card h-100 shadow-lg border-0 rounded-4 card-modern overflow-hidden">
 
                         <div class="position-relative">
-
                             @{
                                 string imgSrc = item.Imagine_anunt != null && item.Imagine_anunt.Length > 0
                                 ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.Imagine_anunt)}"
@@ -43,7 +59,6 @@
                                     style="background: none; border: none;">
                                 <i class="bi @(isFav ? "bi-heart-fill text-danger" : "bi-heart text-white") fs-2"></i>
                             </button>
-
                         </div>
 
                         <div class="card-body d-flex flex-column">
@@ -51,7 +66,7 @@
                             <h5 class="card-title fw-bold">@item.Denumire</h5>
 
                             <p class="card-text text-muted mb-3">
-                                <i class="bi bi-geo-alt-fill"></i> @item.Locatie
+                                <i class="bi bi-geo-alt-fill"></i> @item.Oras
                             </p>
 
                             <a asp-controller="Anunturi"
@@ -61,19 +76,33 @@
                                 Vezi Detalii <i class="bi bi-arrow-right"></i>
                             </a>
 
-                            <div class="d-flex justify-content-between mt-4">
+                            <div class="d-flex justify-content-between mt-4 border-top pt-3">
 
-                                <a asp-action="Edit"
-                                   asp-route-id="@item.ID_Anunt"
-                                   class="btn btn-sm btn-outline-secondary px-3">
-                                    <i class="bi bi-pencil"></i> Editare
-                                </a>
+                                @if (canEdit)
+                                {
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.ID_Anunt"
+                                       class="btn btn-sm btn-outline-secondary px-3">
+                                        <i class="bi bi-pencil"></i> Editare
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-outline-secondary px-3 invisible" disabled tabindex="-1">Editare</button>
+                                }
 
-                                <a asp-action="Delete"
-                                   asp-route-id="@item.ID_Anunt"
-                                   class="btn btn-sm btn-outline-danger px-3">
-                                    <i class="bi bi-trash"></i> Ștergere
-                                </a>
+                                @if (canDelete)
+                                {
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.ID_Anunt"
+                                       class="btn btn-sm btn-outline-danger px-3">
+                                        <i class="bi bi-trash"></i> Ștergere
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-outline-danger px-3 invisible" disabled tabindex="-1">Ștergere</button>
+                                }
 
                             </div>
 
@@ -95,45 +124,3 @@
     </div>
 
 </main>
-@section Scripts {
-    <script>
-        document.querySelectorAll(".favorite-btn").forEach(btn => {
-            btn.addEventListener("click", function () {
-
-                const anuntId = this.dataset.id;
-                const isFav = this.dataset.favorite === "true";
-                const icon = this.querySelector("i");
-
-                const token = document.querySelector("input[name='__RequestVerificationToken']").value;
-
-                fetch('/Favorite/ToggleFavorite', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'RequestVerificationToken': token
-                    },
-                    body: `anuntId=${anuntId}&action=${(isFav ? "remove" : "add")}`
-                })
-                .then(r => r.json())
-                .then(data => {
-                    if (data.success) {
-
-                        icon.classList.add("heart-animate");
-                        setTimeout(() => icon.classList.remove("heart-animate"), 350);
-
-                        if (isFav) {
-                            icon.classList.remove("bi-heart-fill", "text-danger");
-                            icon.classList.add("bi-heart", "text-white");
-                            this.dataset.favorite = "false";
-                        }
-                        else {
-                            icon.classList.remove("bi-heart", "text-white");
-                            icon.classList.add("bi-heart-fill", "text-danger");
-                            this.dataset.favorite = "true";
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-}

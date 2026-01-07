@@ -33,6 +33,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Favorite">Favorite</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item ms-2">
+                                <vc:mesaje-necitite />
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
 

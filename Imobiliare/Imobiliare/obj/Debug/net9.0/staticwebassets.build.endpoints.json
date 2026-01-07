@@ -9808,6 +9808,88 @@
       ]
     },
     {
+      "Route": "images/apcaleasev.irxeifjl40.jpg",
+      "AssetFile": "images/apcaleasev.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "53320"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:36:32 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "irxeifjl40"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU="
+        },
+        {
+          "Name": "label",
+          "Value": "images/apcaleasev.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/apcaleasev.jpg",
+      "AssetFile": "images/apcaleasev.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "53320"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:36:32 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU="
+        }
+      ]
+    },
+    {
       "Route": "images/apcornitoiu.jpg",
       "AssetFile": "images/apcornitoiu.jpg",
       "Selectors": [],
@@ -9886,6 +9968,88 @@
         {
           "Name": "label",
           "Value": "images/apcornitoiu.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/apelectro.jpg",
+      "AssetFile": "images/apelectro.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "88184"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:38:28 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM="
+        }
+      ]
+    },
+    {
+      "Route": "images/apelectro.t1qkyziodb.jpg",
+      "AssetFile": "images/apelectro.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "88184"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:38:28 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "t1qkyziodb"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM="
+        },
+        {
+          "Name": "label",
+          "Value": "images/apelectro.jpg"
         }
       ]
     },

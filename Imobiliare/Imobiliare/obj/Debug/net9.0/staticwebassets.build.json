@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0ztxYFuOadDEAiw4UKUA/kYoQud+Y5/pxqttWXyNeU8=",
+  "Hash": "3Pz7F9qvbq5VXxDoyqzPE9Q91KQRjBEiyQd10K6hOcU=",
   "Source": "Imobiliare",
   "BasePath": "_content/Imobiliare",
   "Mode": "Default",
@@ -4133,6 +4133,27 @@
       "OriginalItemSpec": "wwwroot\\images\\apbrazda.jpg"
     },
     {
+      "Identity": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apcaleasev.jpg",
+      "SourceId": "Imobiliare",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\",
+      "BasePath": "_content/Imobiliare",
+      "RelativePath": "images/apcaleasev#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "irxeifjl40",
+      "Integrity": "bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\apcaleasev.jpg"
+    },
+    {
       "Identity": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apcornitoiu.jpg",
       "SourceId": "Imobiliare",
       "SourceType": "Discovered",
@@ -4152,6 +4173,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\apcornitoiu.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apelectro.jpg",
+      "SourceId": "Imobiliare",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\",
+      "BasePath": "_content/Imobiliare",
+      "RelativePath": "images/apelectro#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "t1qkyziodb",
+      "Integrity": "H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\apelectro.jpg"
     },
     {
       "Identity": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\aprovine.jpg",
@@ -15028,6 +15070,88 @@
       ]
     },
     {
+      "Route": "images/apcaleasev.irxeifjl40.jpg",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apcaleasev.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "53320"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:36:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "irxeifjl40"
+        },
+        {
+          "Name": "label",
+          "Value": "images/apcaleasev.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU="
+        }
+      ]
+    },
+    {
+      "Route": "images/apcaleasev.jpg",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apcaleasev.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "53320"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:36:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bgDlKy0t+MwYFpN6ci76W4sG22X/EWbIJ/Y4uzvRLFU="
+        }
+      ]
+    },
+    {
       "Route": "images/apcornitoiu.jpg",
       "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apcornitoiu.jpg",
       "Selectors": [],
@@ -15106,6 +15230,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-nt9M8yPjedrGXlgr9k3p7Uy73T9QgN9yIzNRfH0gskk="
+        }
+      ]
+    },
+    {
+      "Route": "images/apelectro.jpg",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apelectro.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "88184"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:38:28 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM="
+        }
+      ]
+    },
+    {
+      "Route": "images/apelectro.t1qkyziodb.jpg",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\images\\apelectro.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "88184"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Nov 2025 08:38:28 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "t1qkyziodb"
+        },
+        {
+          "Name": "label",
+          "Value": "images/apelectro.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-H1FXk3UH5eS8SQBHDZRoHHPo+Hh+oF2Eh2nPkbfM/pM="
         }
       ]
     },

@@ -54,5 +54,24 @@ namespace Imobiliare.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public async Task<IActionResult> Search(string oras, string tranzactie, string tip)
+        {
+            var query = _context.Anunturi.AsQueryable();
+
+            if (!string.IsNullOrEmpty(oras))
+                query = query.Where(a => a.Oras.ToLower().Contains(oras.ToLower()));
+
+            if (!string.IsNullOrEmpty(tranzactie))
+                query = query.Where(a => a.Tranzactie == tranzactie);
+
+            if (!string.IsNullOrEmpty(tip))
+                query = query.Where(a => a.TipProprietate == tip);
+
+            var rezultate = await query.ToListAsync();
+
+            return View("Rezultate", rezultate);
+        }
+
     }
 }

@@ -1,8 +1,36 @@
-﻿@model Imobiliare.Models.Anunturi
+﻿@using System.Security.Claims
+@model Imobiliare.Models.Anunturi
 
 @{
     ViewData["Title"] = Model.Denumire;
     Layout = "_Layout";
+
+    // --- LOGICA DE PERMISIUNI ---
+    bool isOwner = false;
+    bool isAdmin = false;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        int currentUserId = 0;
+
+        if (int.TryParse(userIdString, out currentUserId))
+        {
+            // Verificăm dacă este proprietar
+            if (currentUserId == Model.ID_Utilizator)
+            {
+                isOwner = true;
+            }
+        }
+
+        // Verificăm dacă este administrator
+        isAdmin = User.IsInRole("Administrator");
+    }
+
+    // Reguli finale
+    bool canEdit = isOwner;              // Doar proprietarul poate edita
+    bool canDelete = isOwner || isAdmin; // Proprietarul sau Adminul pot șterge
+    // ----------------------------
 }
 
 <link rel="stylesheet" href="~/css/add.css" />
@@ -15,7 +43,7 @@
             <div class="col-md-8">
                 <h1 class="display-5 fw-bold details-title">@Model.Denumire</h1>
                 <p class="lead text-muted">
-                    <i class="bi bi-geo-alt-fill text-primary-modern"></i> @Model.Locatie
+                    <i class="bi bi-geo-alt-fill text-primary-modern"></i> @Model.Oras
                 </p>
             </div>
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
@@ -30,37 +58,76 @@
             <div class="col-lg-8">
 
                 <div class="card details-card shadow-lg border-0 rounded-4 mb-4">
+                    @if (Model.Imagini != null && Model.Imagini.Any())
+                    {
+                        <div id="carouselAnunt" class="carousel slide rounded-4 overflow-hidden shadow mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @for (int i = 0; i < Model.Imagini.Count(); i++)
+                                {
+                                    var imgBytes = Model.Imagini.ElementAt(i).Imagine;
+                                    var base64 = Convert.ToBase64String(imgBytes);
+                                    var imgsrc = $"data:image/jpeg;base64,{base64}";
 
-                    @{
-                        string imgSrc = "";
-                        if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
-                        {
-                            var base64 = Convert.ToBase64String(Model.Imagine_anunt);
-                            imgSrc = $"data:image/jpeg;base64,{base64}";
-                        }
-                        else imgSrc = "https://via.placeholder.com/800x600?text=Fara+Imagine";
+                                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                                        <img src="@imgsrc" class="d-block w-100" style="max-height: 550px; object-fit: cover;" />
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselAnunt" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselAnunt" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                            <div class="carousel-indicators">
+                                @for (int i = 0; i < Model.Imagini.Count(); i++)
+                                {
+                                    <button type="button" data-bs-target="#carouselAnunt" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></button>
+                                }
+                            </div>
+                        </div>
                     }
+                    else
+                    {
+                        string imgSrc = (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
+                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.Imagine_anunt)}"
+                        : "https://via.placeholder.com/800x600?text=Fara+Imagine";
+                        <img src="@imgSrc" class="d-block w-100 rounded-4 mb-3" style="max-height: 550px; object-fit: cover;" />
+                    }
+                </div>
 
-                    <img src="@imgSrc"
-                         class="card-img-top rounded-top-4 details-image"
-                         alt="@Model.Denumire">
-
+                <div class="card-body p-4">
                     <div class="card-body p-4">
-
                         <h4 class="fw-bold mb-3 details-section-title">Descrierea proprietății</h4>
+                        <p class="details-description">@Model.Descriere</p>
 
-                        <p class="details-description">
-                            @Model.Descriere
-                        </p>
-
+                        <ul class="list-group mb-4">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="bi bi-tags-fill text-primary-modern"></i> Tranzacție:</span>
+                                <strong>@Model.Tranzactie</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="bi bi-house-fill text-primary-modern"></i> Tip proprietate:</span>
+                                <strong>@Model.TipProprietate</strong>
+                            </li>
+                            @if (Model.Oras != null)
+                            {
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span><i class="bi bi-geo-alt-fill text-primary-modern"></i> Oraș:</span>
+                                    <strong>@Model.Oras</strong>
+                                </li>
+                            }
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="bi bi-house-fill text-primary-modern"></i> Locație:</span>
+                                <strong>@Model.Locatie</strong>
+                            </li>
+                        </ul>
                         <hr />
-
                         <p class="text-muted small fst-italic">
                             Publicat pe: <strong>@Model.Data_publicare.ToShortDateString()</strong>
                         </p>
                     </div>
                 </div>
-
             </div>
 
             <div class="col-lg-4 fade-in">
@@ -76,6 +143,14 @@
                             <h5 class="fw-bold mb-3">
                                 @Model.Utilizator.Nume @Model.Utilizator.Prenume
                             </h5>
+
+                            @if (User.Identity.IsAuthenticated && !isOwner)
+                            {
+                                <a asp-controller="Chat" asp-action="StartChat" asp-route-idAnunt="@Model.ID_Anunt"
+                                   class="btn btn-primary w-100 mb-2 rounded-pill shadow-sm fw-bold">
+                                    <i class="bi bi-chat-dots-fill"></i> Trimite Mesaj
+                                </a>
+                            }
 
                             <a href="tel:@Model.Utilizator.Telefon" class="btn contact-btn w-100 mb-2">
                                 <i class="bi bi-telephone-fill"></i> Sună: @Model.Utilizator.Telefon
@@ -99,15 +174,21 @@
 
                         <h5 class="fw-bold mb-3 details-section-title">Acțiuni</h5>
 
-                        <a asp-action="Edit" asp-route-id="@Model.ID_Anunt"
-                           class="btn action-edit w-100 mb-3">
-                            <i class="bi bi-pencil-square"></i> Editează Anunțul
-                        </a>
+                        @if (canEdit)
+                        {
+                            <a asp-action="Edit" asp-route-id="@Model.ID_Anunt"
+                               class="btn action-edit w-100 mb-3">
+                                <i class="bi bi-pencil-square"></i> Editează Anunțul
+                            </a>
+                        }
 
-                        <a asp-action="Delete" asp-route-id="@Model.ID_Anunt"
-                           class="btn action-delete w-100 mb-3">
-                            <i class="bi bi-trash"></i> Șterge Anunțul
-                        </a>
+                        @if (canDelete)
+                        {
+                            <a asp-action="Delete" asp-route-id="@Model.ID_Anunt"
+                               class="btn action-delete w-100 mb-3">
+                                <i class="bi bi-trash"></i> Șterge Anunțul
+                            </a>
+                        }
 
                         <a asp-action="Index" class="btn action-back w-100 mt-3">
                             <i class="bi bi-arrow-left-circle"></i> Înapoi la listă

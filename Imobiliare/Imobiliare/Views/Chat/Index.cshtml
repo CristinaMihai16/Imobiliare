@@ -1,0 +1,267 @@
+﻿@model List<Imobiliare.Models.Conversatie>
+
+@{
+    ViewData["Title"] = "Mesagerie";
+    int currentUserId = ViewBag.CurrentUserId;
+    int? activeId = ViewBag.ActiveConversationId;
+
+    var activeChat = Model.FirstOrDefault(c => c.ID_Conversatie == activeId);
+}
+
+<style>
+    .chat-wrapper {
+        height: 80vh;
+        background: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        display: flex;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* LISTA STANGA */
+    .chat-sidebar {
+        width: 350px;
+        background: #f8f9fa;
+        border-right: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-header {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        background: white;
+    }
+
+    .conversation-list {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .conv-item {
+        padding: 15px;
+        cursor: pointer;
+        border-bottom: 1px solid #f1f1f1;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+    }
+
+        .conv-item:hover {
+            background: #e9ecef;
+        }
+
+        .conv-item.active {
+            background: #e7f1ff;
+            border-left: 4px solid #0d6efd;
+        }
+
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        background: #6c757d;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-right: 15px;
+    }
+
+    /* FEREASTRA DREAPTA */
+    .chat-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+    }
+
+    .chat-header {
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .messages-container {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background: #f4f6f8;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .msg-bubble {
+        max-width: 70%;
+        padding: 10px 15px;
+        border-radius: 18px;
+        position: relative;
+        font-size: 0.95rem;
+    }
+
+    .msg-me {
+        align-self: flex-end;
+        background: #0d6efd;
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+
+    .msg-them {
+        align-self: flex-start;
+        background: #e9ecef;
+        color: #333;
+        border-bottom-left-radius: 4px;
+    }
+
+    .msg-time {
+        font-size: 0.7rem;
+        margin-top: 5px;
+        opacity: 0.7;
+        text-align: right;
+        display: block;
+    }
+
+    .chat-footer {
+        padding: 15px;
+        background: white;
+        border-top: 1px solid #eee;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="chat-wrapper">
+
+        <div class="chat-sidebar">
+            <div class="sidebar-header">
+                <h4 class="fw-bold m-0 text-primary">Mesaje</h4>
+            </div>
+
+            <div class="conversation-list">
+                @if (!Model.Any())
+                {
+                    <div class="text-center p-4 text-muted">Nu ai conversații active.</div>
+                }
+
+                @foreach (var conv in Model)
+                {
+                    // Determinam cine este partenerul de discutie
+                    // Daca eu sunt clientul, partenerul e proprietarul. Altfel invers.
+                    var partener = (conv.ID_Utilizator_client == currentUserId)
+                    ? conv.Utilizator_proprietar
+                    : conv.Utilizator_client;
+
+                    string activeClass = (conv.ID_Conversatie == activeId) ? "active" : "";
+                    string partenerNume = partener != null ? $"{partener.Nume} {partener.Prenume}" : "Utilizator șters";
+
+                    <a href="@Url.Action("Index", new { idConversatieActiva = conv.ID_Conversatie })" class="text-decoration-none text-dark">
+                        <div class="conv-item @activeClass">
+                            <div class="user-avatar">
+                                @(partenerNume.Length > 0 ? partenerNume.Substring(0, 1) : "U")
+                            </div>
+                            <div class="flex-grow-1 overflow-hidden">
+                                <h6 class="mb-1 fw-bold text-truncate">@partenerNume</h6>
+                                <small class="text-muted d-block text-truncate">
+                                    @if (conv.Anunturi != null)
+                                    {
+                                        <span>Ref: @conv.Anunturi.Denumire</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Discuție generală</span>
+                                    }
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+
+        <div class="chat-main">
+            @if (activeChat != null)
+            {
+                var partenerMain = (activeChat.ID_Utilizator_client == currentUserId)
+                ? activeChat.Utilizator_proprietar
+                : activeChat.Utilizator_client;
+                string partenerMainNume = partenerMain != null ? $"{partenerMain.Nume} {partenerMain.Prenume}" : "Utilizator";
+
+                <div class="chat-header">
+                    <div>
+                        <h5 class="m-0 fw-bold">@partenerMainNume</h5>
+                        @if (activeChat.Anunturi != null)
+                        {
+                            <small class="text-muted">Interesat de: <a href="/Anunturi/Details/@activeChat.ID_Anunt" target="_blank">@activeChat.Anunturi.Denumire</a></small>
+                        }
+                    </div>
+                </div>
+
+                <div class="messages-container" id="chatBox">
+                    @if (activeChat.ListaMesaje != null && activeChat.ListaMesaje.Any())
+                    {
+                        // Ordonam mesajele cronologic: Data + Ora
+                        var mesajeOrdonate = activeChat.ListaMesaje
+                        .OrderBy(m => m.Data)
+                        .ThenBy(m => m.Ora)
+                        .ToList();
+
+                        foreach (var msg in mesajeOrdonate)
+                        {
+                            bool isMe = msg.ID_Utilizator_expeditor == currentUserId;
+
+                            <div class="msg-bubble fade-in @(isMe ? "msg-me" : "msg-them")">
+                                @msg.Text
+                                <span class="msg-time">
+                                    @msg.Data.ToString("dd MMM") @msg.Ora.ToString("HH:mm")
+                                </span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted mt-5">
+                            <i class="bi bi-chat-dots fs-1"></i>
+                            <p>Începe conversația!</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="chat-footer">
+                    <form asp-action="TrimiteMesaj" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="idConversatie" value="@activeChat.ID_Conversatie" />
+
+                        <input type="text" name="textMesaj" class="form-control rounded-pill border bg-light px-3"
+                               placeholder="Scrie un mesaj..." required autocomplete="off" />
+
+                        <button type="submit" class="btn btn-primary rounded-circle" style="width: 45px; height: 45px;">
+                            <i class="bi bi-send-fill"></i>
+                        </button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex flex-column justify-content-center align-items-center h-100 bg-light text-muted">
+                    <i class="bi bi-chat-square-text display-3 mb-3 opacity-25"></i>
+                    <h4>Mesagerie Imobiliară</h4>
+                    <p>Selectează o conversație din stânga pentru a citi mesajele.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Scroll automat la ultimul mesaj
+        var chatBox = document.getElementById("chatBox");
+        if (chatBox) {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+}

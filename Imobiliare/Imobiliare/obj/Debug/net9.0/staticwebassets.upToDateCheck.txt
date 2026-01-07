@@ -65,7 +65,9 @@ wwwroot\css\contact.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\apbrazda.jpg
+wwwroot\images\apcaleasev.jpg
 wwwroot\images\apcornitoiu.jpg
+wwwroot\images\apelectro.jpg
 wwwroot\images\aprovine.jpg
 wwwroot\images\pandelica.jpg
 wwwroot\images\profil.jpg

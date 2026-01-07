@@ -17,7 +17,7 @@ namespace Imobiliare.Models
 
         [ForeignKey("ID_Utilizator_client")]
         public Utilizator? Utilizator_client { get; set; }
-
+        public virtual ICollection<Mesaje>? ListaMesaje { get; set; }
 
     }
 }

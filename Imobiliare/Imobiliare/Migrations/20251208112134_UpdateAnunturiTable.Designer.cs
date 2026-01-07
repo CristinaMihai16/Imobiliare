@@ -3,6 +3,7 @@ using System;
 using Imobiliare.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Imobiliare.Migrations
 {
     [DbContext(typeof(ImobiliareContext))]
-    partial class ImobiliareContextModelSnapshot : ModelSnapshot
+    [Migration("20251208112134_UpdateAnunturiTable")]
+    partial class UpdateAnunturiTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,30 +24,6 @@ namespace Imobiliare.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ImaginiAnunt", b =>
-                {
-                    b.Property<int>("ID_ImaginiAnunt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_ImaginiAnunt"));
-
-                    b.Property<int?>("AnuntID_Anunt")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ID_Anunt")
-                        .HasColumnType("integer");
-
-                    b.Property<byte[]>("Imagine")
-                        .HasColumnType("bytea");
-
-                    b.HasKey("ID_ImaginiAnunt");
-
-                    b.HasIndex("AnuntID_Anunt");
-
-                    b.ToTable("ImaginiAnunt");
-                });
 
             modelBuilder.Entity("Imobiliare.Models.Anunturi", b =>
                 {
@@ -62,6 +41,7 @@ namespace Imobiliare.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Descriere")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ID_Utilizator")
@@ -71,6 +51,7 @@ namespace Imobiliare.Migrations
                         .HasColumnType("bytea");
 
                     b.Property<string>("Locatie")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Oras")
@@ -457,15 +438,6 @@ namespace Imobiliare.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ImaginiAnunt", b =>
-                {
-                    b.HasOne("Imobiliare.Models.Anunturi", "Anunt")
-                        .WithMany("Imagini")
-                        .HasForeignKey("AnuntID_Anunt");
-
-                    b.Navigation("Anunt");
-                });
-
             modelBuilder.Entity("Imobiliare.Models.Anunturi", b =>
                 {
                     b.HasOne("Imobiliare.Models.Utilizator", "Utilizator")
@@ -611,8 +583,6 @@ namespace Imobiliare.Migrations
             modelBuilder.Entity("Imobiliare.Models.Anunturi", b =>
                 {
                     b.Navigation("Conversatie");
-
-                    b.Navigation("Imagini");
                 });
 
             modelBuilder.Entity("Imobiliare.Models.Utilizator", b =>

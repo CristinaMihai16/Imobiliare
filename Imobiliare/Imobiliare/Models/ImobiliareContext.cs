@@ -20,6 +20,8 @@ namespace Imobiliare.Data
         public DbSet<Mesaje>? Mesaje { get; set; }
         public DbSet<Favorite>? Favorite { get; set; }
         public DbSet<Formular>? Formulare { get; set; }
+        public DbSet<ImaginiAnunt> ImaginiAnunt { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -70,7 +72,12 @@ namespace Imobiliare.Data
                 .WithMany()
                 .HasForeignKey(f => f.ID_Anunt)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            
+            modelBuilder.Entity<Conversatie>()
+                .HasMany(c => c.ListaMesaje)      
+                .WithOne(m => m.Conversatie)      
+                .HasForeignKey(m => m.ID_Conversatie) 
+                .OnDelete(DeleteBehavior.Cascade);    
 
         }
 

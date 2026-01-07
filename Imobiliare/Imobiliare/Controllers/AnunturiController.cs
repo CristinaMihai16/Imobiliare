@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Imobiliare.Data;
 using Imobiliare.Models;
-using System.Security.Claims;
+using System.Security.Claims; 
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace Imobiliare.Controllers
 {
@@ -45,25 +46,21 @@ namespace Imobiliare.Controllers
             return View(anunturi);
         }
 
-
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var anunturi = await _context.Anunturi
+            var anunt = await _context.Anunturi
                 .Include(a => a.Utilizator)
+                .Include(a => a.Imagini) 
                 .FirstOrDefaultAsync(m => m.ID_Anunt == id);
-            if (anunturi == null)
-            {
-                return NotFound();
-            }
 
-            return View(anunturi);
+            if (anunt == null) return NotFound();
+
+            return View(anunt);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -72,37 +69,50 @@ namespace Imobiliare.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create(Anunturi model, IFormFile ImagineFile)
+        public async Task<IActionResult> Create(Anunturi model, List<IFormFile> ImaginiFiles)
         {
             ModelState.Remove(nameof(model.ID_Utilizator));
             ModelState.Remove(nameof(model.Utilizator));
-            ModelState.Remove(nameof(model.Imagine_anunt));
             ModelState.Remove(nameof(model.Conversatie));
-
-            
-            ModelState.Remove("ImagineFile");  
+            ModelState.Remove(nameof(model.Imagini));
 
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            model.ID_Utilizator = int.Parse(userIdString);
-
-            
-            if (ImagineFile != null && ImagineFile.Length > 0)
+            if (userIdString != null)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await ImagineFile.CopyToAsync(memoryStream);
-                    model.Imagine_anunt = memoryStream.ToArray();
-                }
+                model.ID_Utilizator = int.Parse(userIdString);
             }
-            else
-            {
-                model.Imagine_anunt = null;
-            }
-
             model.Data_publicare = DateTime.UtcNow;
 
+            if (ImaginiFiles != null && ImaginiFiles.Count > 0)
+            {
+                model.Imagini = new List<ImaginiAnunt>();
+
+                foreach (var file in ImaginiFiles)
+                {
+                    if (file.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await file.CopyToAsync(ms);
+                            var imagineNoua = new ImaginiAnunt
+                            {
+                                Imagine = ms.ToArray()
+                            };
+                            model.Imagini.Add(imagineNoua);
+                        }
+                    }
+                }
+
+                if (model.Imagini.Any())
+                {
+                    model.Imagine_anunt = model.Imagini.First().Imagine;
+                }
+            }
+
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             _context.Add(model);
             await _context.SaveChangesAsync();
@@ -111,122 +121,222 @@ namespace Imobiliare.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        // GET: Anunturi/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var anunturi = await _context.Anunturi.FindAsync(id);
-            if (anunturi == null)
+            var anunt = await _context.Anunturi
+                .Include(a => a.Imagini)
+                .FirstOrDefaultAsync(m => m.ID_Anunt == id);
+
+            if (anunt == null) return NotFound();
+
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null || anunt.ID_Utilizator != int.Parse(userIdString))
             {
-                return NotFound();
+                TempData["eroare"] = "Nu ai dreptul să editezi acest anunț!";
+                return RedirectToAction(nameof(Index));
             }
-            return View(anunturi);
+            
+
+            return View(anunt);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Anunturi model, IFormFile ImagineFile)
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, Anunturi model, IFormFile? ImagineFile, List<IFormFile> ImaginiNoi)
         {
-            if (id != model.ID_Anunt)
-                return NotFound();
+            if (id != model.ID_Anunt) return NotFound();
 
-            var anuntExistent = await _context.Anunturi
-                .AsNoTracking()
+            ModelState.Remove(nameof(model.ID_Utilizator));
+            ModelState.Remove(nameof(model.Utilizator));
+            ModelState.Remove(nameof(model.Conversatie));
+            ModelState.Remove(nameof(model.Imagini));
+            ModelState.Remove("ImagineFile");
+            ModelState.Remove("ImaginiNoi");
+            ModelState.Remove(nameof(model.Data_publicare));
+            ModelState.Remove(nameof(model.Imagine_anunt));
+
+            var anuntDinDb = await _context.Anunturi
+                .Include(a => a.Imagini)
                 .FirstOrDefaultAsync(a => a.ID_Anunt == id);
 
-            if (anuntExistent == null)
-                return NotFound();
+            if (anuntDinDb == null) return NotFound();
 
-            ModelState.Remove(nameof(model.Imagine_anunt));
-            ModelState.Remove("ImagineFile");   
-            ModelState.Remove(nameof(model.Data_publicare));
-            ModelState.Remove(nameof(model.ID_Utilizator));
-
-            if (!ModelState.IsValid)
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null || anuntDinDb.ID_Utilizator != int.Parse(userIdString))
             {
-                model.Imagine_anunt = anuntExistent.Imagine_anunt;
-                return View(model);
+                TempData["eroare"] = "Tentativă de editare neautorizată!";
+                return RedirectToAction(nameof(Index));
             }
 
             try
             {
+                anuntDinDb.Denumire = model.Denumire;
+                anuntDinDb.Descriere = model.Descriere;
+                anuntDinDb.Pret = model.Pret;
+                anuntDinDb.Oras = model.Oras;
+                anuntDinDb.Locatie = model.Locatie;
+                anuntDinDb.Tranzactie = model.Tranzactie;
+                anuntDinDb.TipProprietate = model.TipProprietate;
+
                 if (ImagineFile != null && ImagineFile.Length > 0)
                 {
                     using var ms = new MemoryStream();
                     await ImagineFile.CopyToAsync(ms);
-                    model.Imagine_anunt = ms.ToArray();
+                    anuntDinDb.Imagine_anunt = ms.ToArray();
                 }
-                else
+
+                if (ImaginiNoi != null && ImaginiNoi.Count > 0)
                 {
-                    model.Imagine_anunt = anuntExistent.Imagine_anunt;
+                    if (anuntDinDb.Imagini == null)
+                    {
+                        anuntDinDb.Imagini = new List<ImaginiAnunt>();
+                    }
+
+                    foreach (var file in ImaginiNoi)
+                    {
+                        if (file.Length > 0)
+                        {
+                            using var ms = new MemoryStream();
+                            await file.CopyToAsync(ms);
+
+                            var imgNoua = new ImaginiAnunt
+                            {
+                                Imagine = ms.ToArray()
+                            };
+
+                            anuntDinDb.Imagini.Add(imgNoua);
+                        }
+                    }
                 }
 
-                model.Data_publicare = anuntExistent.Data_publicare;
-                model.ID_Utilizator = anuntExistent.ID_Utilizator;
-
-                _context.Update(model);
                 await _context.SaveChangesAsync();
 
-                TempData["succes"] = "Anunțul a fost modificat!";
+                TempData["succes"] = "Modificările au fost salvate!";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                TempData["eroare"] = ex.Message;
-                model.Imagine_anunt = anuntExistent.Imagine_anunt;
+                string mesaj = ex.Message;
+                if (ex.InnerException != null) mesaj += " | " + ex.InnerException.Message;
+                TempData["eroare"] = mesaj;
+
+                model.Imagini = anuntDinDb.Imagini;
                 return View(model);
             }
         }
 
-
-
-        // GET: Anunturi/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var anunturi = await _context.Anunturi
-                .FirstOrDefaultAsync(m => m.ID_Anunt == id);
-            if (anunturi == null)
-            {
-                return NotFound();
-            }
-
-            return View(anunturi);
-        }
-
-        // POST: Anunturi/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [Authorize]
+        public async Task<IActionResult> StergeImagine(int id, int ID_Anunt)
         {
-            var anunturi = await _context.Anunturi.FindAsync(id);
-            if (anunturi != null)
+            var imagine = await _context.ImaginiAnunt
+                .Include(i => i.Anunt) 
+                .FirstOrDefaultAsync(i => i.ID_ImaginiAnunt == id);
+
+            if (imagine != null)
             {
-                _context.Anunturi.Remove(anunturi);
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userIdString == null || imagine.Anunt.ID_Utilizator != int.Parse(userIdString))
+                {
+                    TempData["eroare"] = "Nu poți șterge imagini care nu îți aparțin!";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.ImaginiAnunt.Remove(imagine);
+                await _context.SaveChangesAsync();
+                TempData["succes"] = "Imaginea a fost ștearsă!";
             }
 
-            await _context.SaveChangesAsync();
+            if (ID_Anunt > 0)
+            {
+                return RedirectToAction(nameof(Edit), new { id = ID_Anunt });
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AnunturiExists(int id)
+        [Authorize]
+        public async Task<IActionResult> Delete(int? id)
         {
-            return _context.Anunturi.Any(e => e.ID_Anunt == id);
+            if (id == null) return NotFound();
+
+            var anunt = await _context.Anunturi
+                .Include(a => a.Utilizator)
+                .Include(a => a.Imagini)
+                .FirstOrDefaultAsync(m => m.ID_Anunt == id);
+
+            if (anunt == null) return NotFound();
+
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            bool isOwner = userIdString != null && anunt.ID_Utilizator == int.Parse(userIdString);
+
+            bool isAdmin = User.IsInRole("Administrator");
+
+            if (!isOwner && !isAdmin)
+            {
+                TempData["eroare"] = "Nu ai dreptul să ștergi acest anunț!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(anunt);
         }
+
+        
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var anunt = await _context.Anunturi
+                .Include(a => a.Imagini)
+                .Include(a => a.Conversatie)
+                .FirstOrDefaultAsync(m => m.ID_Anunt == id);
+
+            if (anunt != null)
+            {
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                bool isOwner = userIdString != null && anunt.ID_Utilizator == int.Parse(userIdString);
+                bool isAdmin = User.IsInRole("Administrator");
+
+                if (!isOwner && !isAdmin)
+                {
+                    TempData["eroare"] = "Acțiune neautorizată!";
+                    return RedirectToAction(nameof(Index));
+                }
+               
+                if (anunt.Imagini != null && anunt.Imagini.Any())
+                {
+                    _context.ImaginiAnunt.RemoveRange(anunt.Imagini);
+                }
+
+                if (anunt.Conversatie != null && anunt.Conversatie.Any())
+                {
+                    // _context.Conversatii.RemoveRange(anunt.Conversatie);
+                }
+
+                _context.Anunturi.Remove(anunt);
+                await _context.SaveChangesAsync();
+
+                TempData["succes"] = "Anunțul a fost șters definitiv.";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
         [Authorize]
         public async Task<IActionResult> AnunturileMele()
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null) return RedirectToAction("Login", "Account");
+
             int userId = int.Parse(userIdString);
 
             var anunturileMele = await _context.Anunturi
@@ -235,6 +345,11 @@ namespace Imobiliare.Controllers
                 .ToListAsync();
 
             return View(anunturileMele);
+        }
+
+        private bool AnunturiExists(int id)
+        {
+            return _context.Anunturi.Any(e => e.ID_Anunt == id);
         }
     }
 }

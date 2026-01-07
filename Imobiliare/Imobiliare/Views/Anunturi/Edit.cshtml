@@ -12,15 +12,14 @@
     <div class="container fade-in mb-4">
         @if (TempData["eroare"] != null)
         {
-            <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
                 <strong>⚠️ Eroare!</strong> @TempData["eroare"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         }
-
         @if (TempData["succes"] != null)
         {
-            <div class="alert alert-success alert-dismissible fade show rounded-3 shadow" role="alert">
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
                 <strong>✨ Succes!</strong> @TempData["succes"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -29,13 +28,11 @@
 
     <div class="text-center mb-5 fade-in">
         <h1 class="add-title fw-bold">✨ Editează anunțul ✨</h1>
-
     </div>
 
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-
                 <div class="add-card shadow-lg fade-in">
 
                     <form asp-action="Edit" method="post" enctype="multipart/form-data">
@@ -59,39 +56,111 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <label asp-for="Pret" class="form-label fw-semibold">Preț (EUR)</label>
                                 <input asp-for="Pret" type="number" class="form-control add-input" />
                                 <span asp-validation-for="Pret" class="text-danger small"></span>
                             </div>
-
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-4 mb-4">
+                                <label asp-for="Oras" class="form-label fw-semibold">Oraș</label>
+                                <input asp-for="Oras" class="form-control add-input" />
+                                <span asp-validation-for="Oras" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4 mb-4">
                                 <label asp-for="Locatie" class="form-label fw-semibold">Locație</label>
-                                <input asp-for="Locatie" class="form-control add-input" />
+                                <input asp-for="Locatie" class="form-control add-input" placeholder="Strada..." />
                                 <span asp-validation-for="Locatie" class="text-danger small"></span>
                             </div>
                         </div>
 
-                        <h4 class="section-title">Imaginea proprietății</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Tranzactie" class="form-label fw-semibold">Tranzacție</label>
+                                <select asp-for="Tranzactie" class="form-select add-input">
+                                    <option value="Vanzare">Vânzare</option>
+                                    <option value="Inchiriere">Închiriere</option>
+                                </select>
+                                <span asp-validation-for="Tranzactie" class="text-danger small"></span>
+                            </div>
 
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="TipProprietate" class="form-label fw-semibold">Tip Proprietate</label>
+                                <select asp-for="TipProprietate" class="form-select add-input">
+                                    <option value="Apartament">Apartament</option>
+                                    <option value="Garsoniera">Garsonieră</option>
+                                    <option value="Casa">Casă / Vilă</option>
+                                    <option value="Teren">Teren</option>
+                                    <option value="SpatiuComercial">Spațiu Comercial</option>
+                                </select>
+                                <span asp-validation-for="TipProprietate" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <h4 class="section-title mt-4">Imaginea de copertă</h4>
                         <div class="mb-4 p-3 border rounded-4 bg-white bg-opacity-75">
-                            <label class="form-label fw-semibold d-block">Imaginea curentă:</label>
+                            <div class="row align-items-center">
+                                <div class="col-md-4 text-center">
+                                    @if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
+                                    {
+                                        var base64 = Convert.ToBase64String(Model.Imagine_anunt);
+                                        <img src="data:image/jpeg;base64,@base64" class="img-fluid rounded shadow-sm" style="max-height: 100px;" />
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">Fără copertă</span>
+                                    }
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="form-label small text-muted">Schimbă coperta (înlocuiește imaginea veche)</label>
+                                    <input type="file" name="ImagineFile" class="form-control" accept="image/*" />
+                                </div>
+                            </div>
+                        </div>
 
-                            @if (Model.Imagine_anunt != null && Model.Imagine_anunt.Length > 0)
+
+                        <h4 class="section-title mt-4">Galerie Foto</h4>
+
+                        <div class="mb-4 p-3 border rounded-4 bg-light">
+                            <label class="form-label fw-bold mb-3">Imagini existente în galerie:</label>
+
+                            @if (Model.Imagini != null && Model.Imagini.Any())
                             {
-                                var base64 = Convert.ToBase64String(Model.Imagine_anunt);
-                                var imgsrc = $"data:image/jpeg;base64,{base64}";
-                                <img src="@imgsrc" class="img-thumbnail mb-3 shadow-sm"
-                                     style="max-height: 220px; border-radius: 15px; object-fit: cover;" />
+                                <div class="row g-2">
+                                    @foreach (var img in Model.Imagini)
+                                    {
+                                        var base64 = Convert.ToBase64String(img.Imagine);
+                                        <div class="col-6 col-md-4 col-lg-3 text-center">
+                                            <div class="card h-100 shadow-sm border-0 position-relative">
+                                                <img src="data:image/jpeg;base64,@base64" class="card-img-top" style="height: 100px; object-fit: cover; border-radius: 8px 8px 0 0;" />
+
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm w-100 rounded-0 rounded-bottom"
+                                                        asp-action="StergeImagine"
+                                                        asp-route-id="@img.ID_ImaginiAnunt"
+                                                        formnovalidate="formnovalidate"
+                                                        onclick="return confirm('Ești sigur că vrei să ștergi această imagine?');">
+                                                    <i class="bi bi-trash"></i> Șterge
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             }
                             else
                             {
-                                <p class="text-muted fst-italic">Nu există imagine salvată.</p>
+                                <p class="text-muted fst-italic p-2 bg-white rounded border">Nu există alte imagini în galerie.</p>
                             }
 
-                            <label class="form-label fw-semibold mt-2">Încarcă o imagine nouă (Opțional)</label>
-                            <input type="file" name="ImagineFile" class="form-control add-input" />
-                            <span class="text-muted small">Lăsați gol pentru a păstra imaginea actuală.</span>
+                            <hr class="my-4" />
+
+                            <label class="form-label fw-bold text-success">
+                                <i class="bi bi-plus-circle-fill"></i> Adaugă imagini noi
+                            </label>
+
+                            <input type="file" name="ImaginiNoi" multiple class="form-control add-input" accept="image/*" />
+                            <div class="form-text text-muted">
+                                Poți selecta mai multe imagini simultan (CTRL + Click). Se vor <strong>adăuga</strong> la cele existente.
+                            </div>
                         </div>
 
                         <div class="text-center mt-5">
@@ -104,7 +173,7 @@
                 </div>
 
                 <div class="text-center mt-4 fade-in">
-                    <a asp-action="Index" class="back-link">
+                    <a asp-action="Index" class="back-link text-decoration-none">
                         <i class="bi bi-arrow-left-circle"></i> Înapoi la listă
                     </a>
                 </div>

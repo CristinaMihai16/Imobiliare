@@ -10,7 +10,7 @@
 <main class="add-wrapper py-5">
 
     <div class="text-center mb-5 fade-in">
-        <h1 class="add-title fw-bold">✨ Adaugă un Anunț Nou ✨</h1>
+        <h1 class="add-title fw-bold">✨ Adaugă un anunț nou ✨</h1>
         <p class="add-subtitle">Completează detaliile proprietății tale pentru a apărea pe platformă.</p>
     </div>
 
@@ -32,41 +32,81 @@
 
                         <div class="mb-4">
                             <label asp-for="Descriere" class="form-label fw-semibold text-secondary-modern">Descriere</label>
-                            <textarea asp-for="Descriere" class="form-control add-input" rows="5" placeholder="Scrie detaliile proprietății…"></textarea>
+                            <textarea asp-for="Descriere" class="form-control add-input" rows="5" placeholder="Scrie detaliile proprietății..."></textarea>
                             <span asp-validation-for="Descriere" class="text-danger"></span>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label asp-for="Pret" class="form-label fw-semibold text-secondary-modern">Preț (EUR)</label>
-                                <input asp-for="Pret" class="form-control add-input" placeholder="Ex: 75000" />
+                                <div class="input-group">
+                                    <input asp-for="Pret" class="form-control add-input" placeholder="Ex: 75000" />
+                                    <span class="input-group-text bg-white border-start-0 text-muted">€</span>
+                                </div>
                                 <span asp-validation-for="Pret" class="text-danger"></span>
                             </div>
 
                             <div class="col-md-6 mb-4">
-                                <label asp-for="Locatie" class="form-label fw-semibold text-secondary-modern">Locație</label>
-                                <input asp-for="Locatie" class="form-control add-input" placeholder="Ex: București, Str. Exemplu nr. 10" />
-                                <span asp-validation-for="Locatie" class="text-danger"></span>
+                                <label asp-for="Oras" class="form-label fw-semibold text-secondary-modern">Oraș</label>
+                                <input asp-for="Oras" class="form-control add-input" placeholder="Ex: București">
+                                <span asp-validation-for="Oras" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-semibold text-secondary-modern">Imagine Anunț</label>
-                            <input type="file" name="ImagineFile" class="form-control add-input" />
+                            <label asp-for="Locatie" class="form-label fw-semibold text-secondary-modern">Locație exactă (Strada/Nr)</label>
+                            <input asp-for="Locatie" class="form-control add-input" placeholder="Ex: Str. Exemplu nr. 10" />
+                            <span asp-validation-for="Locatie" class="text-danger"></span>
                         </div>
 
-                        <div class="text-center mt-4">
-                            <button type="submit" class="add-btn fw-bold">
-                                <i class="bi bi-check-circle-fill"></i> Publică Anunțul
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Tranzactie" class="form-label fw-semibold text-secondary-modern">Tranzacție</label>
+                                <select asp-for="Tranzactie" class="form-select add-input">
+                                    <option value="">Selectează...</option>
+                                    <option value="Vanzare">Vânzare</option>
+                                    <option value="Inchiriere">Închiriere</option>
+                                </select>
+                                <span asp-validation-for="Tranzactie" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="TipProprietate" class="form-label fw-semibold text-secondary-modern">Tip proprietate</label>
+                                <select asp-for="TipProprietate" class="form-select add-input">
+                                    <option value="">Selectează...</option>
+                                    <option value="Apartament">Apartament</option>
+                                    <option value="Garsoniera">Garsonieră</option>
+                                    <option value="Casa">Casă / Vilă</option>
+                                    <option value="Teren">Teren</option>
+                                    <option value="SpatiuComercial">Spațiu Comercial</option>
+                                </select>
+                                <span asp-validation-for="TipProprietate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 p-3 bg-light rounded-3 border border-dashed">
+                            <label class="form-label fw-bold text-primary-modern">
+                                <i class="bi bi-images"></i> Galerie Foto
+                            </label>
+
+                            <input type="file" name="ImaginiFiles" multiple class="form-control add-input" accept="image/*" />
+
+                            <div class="form-text mt-2 text-muted">
+                                <i class="bi bi-info-circle-fill"></i> Poți selecta mai multe imagini simultan (ține apăsat tasta <strong>Ctrl</strong> sau <strong>Shift</strong>). Prima imagine selectată va fi coperta anunțului.
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <button type="submit" class="add-btn fw-bold w-100 py-3 shadow-sm" style="border-radius: 50px;">
+                                <i class="bi bi-cloud-upload-fill me-2"></i> Publică Anunțul
                             </button>
                         </div>
 
                     </form>
-
                 </div>
 
                 <div class="text-center mt-4 fade-in">
-                    <a asp-action="Index" class="back-link">
+                    <a asp-action="Index" class="back-link text-decoration-none">
                         <i class="bi bi-arrow-left"></i> Înapoi la listă
                     </a>
                 </div>

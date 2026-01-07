@@ -212,6 +212,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW51bnR1cmlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/user/OneDrive/Documente/GitHub/Imobiliare/Imobiliare/Imobiliare/Views/Chat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/user/OneDrive/Documente/GitHub/Imobiliare/Imobiliare/Imobiliare/Views/Contact/Confirmare.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxDb25maXJtYXJlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -246,6 +250,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/user/OneDrive/Documente/GitHub/Imobiliare/Imobiliare/Imobiliare/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/OneDrive/Documente/GitHub/Imobiliare/Imobiliare/Imobiliare/Views/Home/Rezultate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZXp1bHRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/OneDrive/Documente/GitHub/Imobiliare/Imobiliare/Imobiliare/Views/Shared/Components/MesajeNecitite/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTWVzYWplTmVjaXRpdGVcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/user/OneDrive/Documente/GitHub/Imobiliare/Imobiliare/Imobiliare/Views/Shared/Error.cshtml]

@@ -1,0 +1,14 @@
+﻿@model int
+
+<a class="nav-link position-relative text-dark" asp-controller="Chat" asp-action="Index" style="padding-top: 15px;">
+    <i class="bi bi-chat-dots-fill" style="font-size: 1.2rem;"></i>
+
+    @if (Model > 0)
+    {
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.65rem; transform: translate(-50%, 50%) !important;">
+            @Model
+            <span class="visually-hidden">mesaje necitite</span>
+        </span>
+    }
+</a>

@@ -13,32 +13,47 @@
             <h1 class="display-3 fw-bolder mb-3 text-shadow-lg">Găsește-ți casa visată</h1>
             <p class="lead mb-4 fw-light">Descoperă proprietăți unice, fără compromisuri.</p>
 
-            <form class="p-4 rounded-4 shadow-lg bg-white bg-opacity-95 search-form-modern">
+            <form asp-controller="Home" asp-action="Search" method="get"
+                  class="p-4 rounded-4 shadow-lg bg-white bg-opacity-95 search-form-modern">
+
                 <div class="row g-3 align-items-center">
+
+                    <!-- ORAS / LOCATIE -->
                     <div class="col-md-5">
-                        <input type="text" class="form-control form-control-lg border-0 shadow-sm" placeholder="Oraș, Locație..." required>
+                        <input type="text" name="oras"
+                               class="form-control form-control-lg border-0 shadow-sm"
+                               placeholder="Oraș...">
                     </div>
+
+                    <!-- TRANZACTIE -->
                     <div class="col-md-3">
-                        <select class="form-select form-select-lg border-0 shadow-sm">
-                            <option selected>Tranzacție</option>
-                            <option value="1">Vânzare</option>
-                            <option value="2">Închiriere</option>
+                        <select name="tranzactie" class="form-select form-select-lg border-0 shadow-sm">
+                            <option value="">Tranzacție</option>
+                            <option value="Vanzare">Vânzare</option>
+                            <option value="Inchiriere">Închiriere</option>
                         </select>
                     </div>
+
+                    <!-- TIP PROPRIETATE -->
                     <div class="col-md-2">
-                        <select class="form-select form-select-lg border-0 shadow-sm">
-                            <option selected>Proprietate</option>
-                            <option value="1">Apartament</option>
-                            <option value="2">Casă/Vilă</option>
+                        <select name="tip" class="form-select form-select-lg border-0 shadow-sm">
+                            <option value="">Proprietate</option>
+                            <option value="Apartament">Apartament</option>
+                            <option value="Garsoniera">Garsonieră</option>
+                            <option value="Casa">Casă/Vilă</option>
                         </select>
                     </div>
+
+                    <!-- BUTON CAUTARE -->
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-search-action-modern btn-lg w-100 rounded-3 fw-bold">
                             <i class="bi bi-search"></i> Caută
                         </button>
                     </div>
+
                 </div>
             </form>
+
         </div>
     </section>
 
@@ -95,7 +110,7 @@
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title fw-bold">@item.Denumire</h5>
                                     <p class="card-text text-muted mb-3">
-                                        <i class="bi bi-geo-alt-fill"></i> @item.Locatie
+                                        <i class="bi bi-geo-alt-fill"></i> @item.Oras
                                     </p>
 
                                     <a asp-controller="Anunturi" asp-action="Details" asp-route-id="@item.ID_Anunt"
