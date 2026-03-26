@@ -1,126 +1,544 @@
 ﻿@using System.Security.Claims
 @model IEnumerable<Imobiliare.Models.Anunturi>
 
-<main class="container py-5">
+<style>
+    .anunturi-page {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #fdf0fa 0%, #f3e8ff 40%, #e8f7f8 100%);
+        padding: 50px 0 80px;
+    }
 
-    <h2 class="text-center mb-5 text-section-title fw-bold">
-        Toate Anunțurile
-    </h2>
+    .page-header {
+        text-align: center;
+        margin-bottom: 50px;
+        position: relative;
+    }
 
-    <div class="row justify-content-center">
+        .page-header::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #75c5cb, #C33FC3);
+            margin: 16px auto 0;
+        }
+
+    .page-title {
+        font-size: 2.6rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #75c5cb, #C33FC3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+        color: #9a7aaa;
+        font-size: 1rem;
+        margin-top: 8px;
+    }
+
+    /* Filtru / badge count */
+    .results-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        padding: 0 4px;
+    }
+
+    .results-count {
+        font-size: 0.92rem;
+        color: #8a6b8f;
+        font-weight: 500;
+    }
+
+        .results-count span {
+            color: #C33FC3;
+            font-weight: 700;
+        }
+
+    /* Card anunț */
+    .anunt-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(166, 91, 166, 0.10);
+        transition: transform 0.32s cubic-bezier(.22,.68,0,1.2), box-shadow 0.32s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .anunt-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 50px rgba(195, 63, 195, 0.18);
+        }
+
+    /* Zona imaginii */
+    .card-img-wrap {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+    .anunt-card:hover .card-img-wrap img {
+        transform: scale(1.06);
+    }
+
+    /* Overlay gradient pe imagine */
+    .card-img-wrap::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(30,10,40,0.45) 0%, transparent 55%);
+        pointer-events: none;
+    }
+
+    /* Badge pret */
+    .price-badge {
+        position: absolute;
+        bottom: 14px;
+        left: 14px;
+        z-index: 2;
+        background: rgba(255,255,255,0.96);
+        color: #1a1a2e;
+        font-weight: 800;
+        font-size: 1.05rem;
+        padding: 6px 16px;
+        border-radius: 30px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        letter-spacing: -0.3px;
+    }
+
+    /* Badge tip proprietate */
+    .type-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 2;
+        background: linear-gradient(135deg, #75c5cb, #52b0b7);
+        color: white;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 5px 12px;
+        border-radius: 20px;
+    }
+
+    /* Buton favorit */
+    .favorite-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+        background: rgba(255,255,255,0.2) !important;
+        border: none !important;
+        width: 42px;
+        height: 42px;
+        border-radius: 50% !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: background 0.2s ease, transform 0.2s ease;
+        padding: 0 !important;
+    }
+
+        .favorite-btn:hover {
+            background: rgba(255,255,255,0.40) !important;
+            transform: scale(1.1);
+        }
+
+        .favorite-btn i {
+            font-size: 1.3rem;
+            display: inline-block;
+        }
+
+    /* Corp card */
+    .card-content {
+        padding: 20px 22px 22px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .card-anunt-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #2c1a3e;
+        margin-bottom: 6px;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .card-location {
+        font-size: 0.88rem;
+        color: #9a7aaa;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .card-location i {
+            color: #C33FC3;
+            font-size: 0.9rem;
+        }
+
+    /* Linie separatoare */
+    .card-divider {
+        height: 1px;
+        background: linear-gradient(90deg, #f0dff7, #d9edf1);
+        margin: 0 0 16px;
+    }
+
+    /* Buton detalii */
+    .btn-detalii {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #75c5cb, #52b0b7);
+        color: white !important;
+        border: none;
+        border-radius: 14px;
+        padding: 11px 18px;
+        font-size: 0.92rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        margin-bottom: 14px;
+    }
+
+        .btn-detalii:hover {
+            background: linear-gradient(135deg, #C33FC3, #a530a5);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(195, 63, 195, 0.3);
+            color: white !important;
+        }
+
+    /* Zona edit/delete */
+    .card-actions {
+        display: flex;
+        gap: 8px;
+        padding-top: 12px;
+        border-top: 1px solid #f5eaf8;
+        margin-top: auto;
+    }
+
+    .btn-action {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.22s ease;
+        border: 1.5px solid;
+    }
+
+    .btn-edit-modern {
+        border-color: #b0d8dc;
+        color: #3a9aa2;
+        background: rgba(117, 197, 203, 0.08);
+    }
+
+        .btn-edit-modern:hover {
+            background: #75c5cb;
+            color: white;
+            border-color: #75c5cb;
+        }
+
+    .btn-delete-modern2 {
+        border-color: #f5b8c8;
+        color: #c0395a;
+        background: rgba(255, 77, 109, 0.06);
+    }
+
+        .btn-delete-modern2:hover {
+            background: #ff4d6d;
+            color: white;
+            border-color: #ff4d6d;
+        }
+
+    .btn-invisible {
+        flex: 1;
+        visibility: hidden;
+        padding: 8px 12px;
+    }
+
+    /* Card gol */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+    }
+
+    .empty-icon {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(117,197,203,0.15), rgba(195,63,195,0.15));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        font-size: 2.4rem;
+    }
+
+    .empty-state h4 {
+        color: #6a4a7a;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        color: #9a7aaa;
+        margin-bottom: 28px;
+    }
+
+    .btn-add-modern {
+        background: linear-gradient(135deg, #C33FC3, #a530a5);
+        color: white !important;
+        border: none;
+        border-radius: 14px;
+        padding: 12px 30px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s ease;
+        box-shadow: 0 6px 20px rgba(195, 63, 195, 0.3);
+    }
+
+        .btn-add-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(195, 63, 195, 0.4);
+        }
+
+    /* Animatie inima */
+    .heart-animate {
+        animation: heartPop 0.35s ease;
+    }
+
+    @@keyframes heartPop {
+        0%
+
+    {
+        transform: scale(1);
+    }
+
+    35% {
+        transform: scale(1.5);
+        filter: drop-shadow(0 0 8px rgba(255,0,0,0.5));
+    }
+
+    55% {
+        transform: scale(0.85);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+    }
+
+    /* Responsive */
+    @@media (max-width: 576px) {
+        .page-title
+
+    {
+        font-size: 1.9rem;
+    }
+
+    .card-img-wrap img {
+        height: 190px;
+    }
+
+    }
+</style>
+
+<div class="anunturi-page">
+    <div class="container">
+        @Html.AntiForgeryToken()
+
+        <div class="page-header">
+            <h1 class="page-title">Toate Anunțurile</h1>
+            <p class="page-subtitle">Descoperă proprietățile disponibile</p>
+        </div>
 
         @if (Model != null && Model.Any())
         {
             var favList = ViewBag.FavoriteIds as List<int?>;
-
-            // 1. Preluăm ID-ul utilizatorului logat
             var currentUserIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int currentUserId = 0;
             int.TryParse(currentUserIdStr, out currentUserId);
 
-            foreach (var item in Model)
-            {
-                bool isFav = favList != null && favList.Contains(item.ID_Anunt);
+            <div class="results-bar">
+                <p class="results-count"><span>@Model.Count()</span> anunțuri găsite</p>
+            </div>
 
-                // 1. Identificare user și roluri
-                bool isAdmin = User.IsInRole("Administrator"); // Verificăm dacă e Admin
-                bool isOwner = User.Identity.IsAuthenticated && (currentUserId == item.ID_Utilizator); // Verificăm dacă e Proprietar
+            <div class="row g-4">
+                @foreach (var item in Model)
+                {
+                    bool isFav = favList != null && favList.Contains(item.ID_Anunt);
+                    bool isAdmin = User.IsInRole("Administrator");
+                    bool isOwner = User.Identity.IsAuthenticated && (currentUserId == item.ID_Utilizator);
+                    bool canEdit = isOwner;
+                    bool canDelete = isOwner || isAdmin;
 
-                // 2. Stabilirea permisiunilor EXACT cum ai cerut
-                // Editare: DOAR dacă ești proprietarul anunțului (Adminul nu editează textele altora)
-                bool canEdit = isOwner;
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="anunt-card">
 
-                // Ștergere: Dacă ești proprietar SAU dacă ești Admin (ca să poți modera)
-                bool canDelete = isOwner || isAdmin;
-
-                <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-
-                    <div class="card h-100 shadow-lg border-0 rounded-4 card-modern overflow-hidden">
-
-                        <div class="position-relative">
-                            @{
-                                string imgSrc = item.Imagine_anunt != null && item.Imagine_anunt.Length > 0
-                                ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.Imagine_anunt)}"
-                                : "https://via.placeholder.com/400x300?text=Fara+Imagine";
-                            }
-
-                            <img src="@imgSrc"
-                                 class="card-img-top"
-                                 style="height: 250px; width: 100%; object-fit: cover;"
-                                 alt="@item.Denumire" />
-
-                            <span class="badge bg-dark position-absolute bottom-0 start-0 m-3 fs-5 p-2">
-                                @item.Pret.ToString("N0") €
-                            </span>
-
-                            <button class="favorite-btn btn btn-sm position-absolute top-0 end-0 m-3"
-                                    data-id="@item.ID_Anunt"
-                                    data-favorite="@isFav.ToString().ToLower()"
-                                    style="background: none; border: none;">
-                                <i class="bi @(isFav ? "bi-heart-fill text-danger" : "bi-heart text-white") fs-2"></i>
-                            </button>
-                        </div>
-
-                        <div class="card-body d-flex flex-column">
-
-                            <h5 class="card-title fw-bold">@item.Denumire</h5>
-
-                            <p class="card-text text-muted mb-3">
-                                <i class="bi bi-geo-alt-fill"></i> @item.Oras
-                            </p>
-
-                            <a asp-controller="Anunturi"
-                               asp-action="Details"
-                               asp-route-id="@item.ID_Anunt"
-                               class="btn btn-primary-modern mt-auto">
-                                Vezi Detalii <i class="bi bi-arrow-right"></i>
-                            </a>
-
-                            <div class="d-flex justify-content-between mt-4 border-top pt-3">
-
-                                @if (canEdit)
-                                {
-                                    <a asp-action="Edit"
-                                       asp-route-id="@item.ID_Anunt"
-                                       class="btn btn-sm btn-outline-secondary px-3">
-                                        <i class="bi bi-pencil"></i> Editare
-                                    </a>
+                            <div class="card-img-wrap">
+                                @{
+                                    string imgSrc = item.Imagine_anunt != null && item.Imagine_anunt.Length > 0
+                                    ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.Imagine_anunt)}"
+                                    : "https://via.placeholder.com/400x300?text=Fara+Imagine";
                                 }
-                                else
+                                <img src="@imgSrc" alt="@item.Denumire" />
+
+                                @if (!string.IsNullOrEmpty(item.TipProprietate))
                                 {
-                                    <button class="btn btn-sm btn-outline-secondary px-3 invisible" disabled tabindex="-1">Editare</button>
+                                    <span class="type-badge">@item.TipProprietate</span>
                                 }
 
-                                @if (canDelete)
+                                <span class="price-badge">
+                                    @item.Pret.ToString("N0") €
+                                </span>
+
+                                <button class="favorite-btn"
+                                        data-id="@item.ID_Anunt"
+                                        data-favorite="@isFav.ToString().ToLower()">
+                                    <i class="bi @(isFav ? "bi-heart-fill text-danger" : "bi-heart text-white")"></i>
+                                </button>
+                            </div>
+
+                            <div class="card-content">
+
+                                <h5 class="card-anunt-title">@item.Denumire</h5>
+
+                                <p class="card-location">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    @item.Oras
+                                </p>
+
+                                <div class="card-divider"></div>
+
+                                <a asp-controller="Anunturi"
+                                   asp-action="Details"
+                                   asp-route-id="@item.ID_Anunt"
+                                   class="btn-detalii">
+                                    Vezi Detalii <i class="bi bi-arrow-right-short" style="font-size:1.1rem;"></i>
+                                </a>
+
+                                @if (canEdit || canDelete)
                                 {
-                                    <a asp-action="Delete"
-                                       asp-route-id="@item.ID_Anunt"
-                                       class="btn btn-sm btn-outline-danger px-3">
-                                        <i class="bi bi-trash"></i> Ștergere
-                                    </a>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-sm btn-outline-danger px-3 invisible" disabled tabindex="-1">Ștergere</button>
+                                    <div class="card-actions">
+                                        @if (canEdit)
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.ID_Anunt" class="btn-action btn-edit-modern">
+                                                <i class="bi bi-pencil"></i> Editare
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="btn-invisible"></span>
+                                        }
+
+                                        @if (canDelete)
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.ID_Anunt" class="btn-action btn-delete-modern2">
+                                                <i class="bi bi-trash"></i> Ștergere
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="btn-invisible"></span>
+                                        }
+                                    </div>
                                 }
 
                             </div>
-
                         </div>
-
                     </div>
-
-                </div>
-            }
+                }
+            </div>
         }
         else
         {
-            <div class="col-12 text-center">
-                <p class="text-muted">Nu există anunțuri momentan.</p>
-                <a asp-action="Create" class="btn btn-success">Adaugă un anunț nou</a>
+            <div class="empty-state">
+                <div class="empty-icon">🏠</div>
+                <h4>Nu există anunțuri momentan</h4>
+                <p>Fii primul care adaugă o proprietate!</p>
+                <a asp-action="Create" class="btn-add-modern">
+                    <i class="bi bi-plus-lg"></i> Adaugă un anunț
+                </a>
             </div>
         }
 
     </div>
+</div>
 
-</main>
+@section Scripts {
+    <script>
+        document.querySelectorAll(".favorite-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const anuntId = this.dataset.id;
+                const isFav = this.dataset.favorite === "true";
+                const icon = this.querySelector("i");
+                const token = document.querySelector("input[name='__RequestVerificationToken']").value;
+
+                fetch('/Favorite/ToggleFavorite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': token
+                    },
+                    body: `anuntId=${anuntId}&action=${isFav ? "remove" : "add"}`
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        icon.classList.add("heart-animate");
+                        setTimeout(() => icon.classList.remove("heart-animate"), 350);
+
+                        if (isFav) {
+                            icon.classList.remove("bi-heart-fill", "text-danger");
+                            icon.classList.add("bi-heart", "text-white");
+                            this.dataset.favorite = "false";
+                        } else {
+                            icon.classList.remove("bi-heart", "text-white");
+                            icon.classList.add("bi-heart-fill", "text-danger");
+                            this.dataset.favorite = "true";
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

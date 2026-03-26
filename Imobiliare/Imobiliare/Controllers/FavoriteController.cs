@@ -38,7 +38,10 @@ namespace Imobiliare.Controllers
             return View(await favoriteleMele.ToListAsync());
         }
 
-       
+        [HttpPost]
+        [Authorize]
+        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ToggleFavorite([FromForm] int anuntId, [FromForm] string action)

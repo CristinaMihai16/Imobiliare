@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3Pz7F9qvbq5VXxDoyqzPE9Q91KQRjBEiyQd10K6hOcU=",
+  "Hash": "8FJ2C818bnOUBT8gzxKydC6xXJ12vG/ZP52PQ21NwSU=",
   "Source": "Imobiliare",
   "BasePath": "_content/Imobiliare",
   "Mode": "Default",
@@ -2075,12 +2075,12 @@
       "OriginalItemSpec": "C:\\Users\\user\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\9.0.10\\staticwebassets\\V5\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-u4arq66l9a.gz",
+      "Identity": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-3t2rlcyapt.gz",
       "SourceId": "Imobiliare",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/Imobiliare",
-      "RelativePath": "css/site#[.{fingerprint=u4arq66l9a}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=3t2rlcyapt}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -2089,8 +2089,8 @@
       "RelatedAsset": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "m3a0y0l3kj",
-      "Integrity": "IqU+RFz3LxgPJCXdTT3gdC/5vyC0fz8uuG/t1dc2ZUY=",
+      "Fingerprint": "26qfdl78yc",
+      "Integrity": "OkNV+2ry4EV5iGfcyjjAo/R3TWbBVDwGSZTHUdGopzI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\css\\site.css"
@@ -4084,8 +4084,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "u4arq66l9a",
-      "Integrity": "8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY=",
+      "Fingerprint": "3t2rlcyapt",
+      "Integrity": "CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -5861,13 +5861,13 @@
       ]
     },
     {
-      "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-u4arq66l9a.gz",
+      "Route": "css/site.3t2rlcyapt.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-3t2rlcyapt.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000427167877"
+          "Quality": "0.000219298246"
         }
       ],
       "ResponseHeaders": [
@@ -5877,19 +5877,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2340"
+          "Value": "4559"
         },
         {
           "Name": "ETag",
-          "Value": "\"IqU+RFz3LxgPJCXdTT3gdC/5vyC0fz8uuG/t1dc2ZUY=\""
+          "Value": "\"OkNV+2ry4EV5iGfcyjjAo/R3TWbBVDwGSZTHUdGopzI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 26 Nov 2025 11:45:16 GMT"
+          "Value": "Thu, 26 Mar 2026 12:17:20 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -5905,18 +5905,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY=\""
+          "Value": "W/\"CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "3t2rlcyapt"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY="
+          "Value": "sha256-CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8="
         }
       ]
     },
     {
-      "Route": "css/site.css",
+      "Route": "css/site.3t2rlcyapt.css",
       "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5926,7 +5934,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9723"
+          "Value": "20936"
         },
         {
           "Name": "Content-Type",
@@ -5934,121 +5942,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY=\""
+          "Value": "\"CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 26 Nov 2025 11:45:16 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-u4arq66l9a.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2340"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"IqU+RFz3LxgPJCXdTT3gdC/5vyC0fz8uuG/t1dc2ZUY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 26 Nov 2025 11:45:16 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-IqU+RFz3LxgPJCXdTT3gdC/5vyC0fz8uuG/t1dc2ZUY="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.u4arq66l9a.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-u4arq66l9a.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000427167877"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2340"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"IqU+RFz3LxgPJCXdTT3gdC/5vyC0fz8uuG/t1dc2ZUY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 26 Nov 2025 11:45:16 GMT"
+          "Value": "Thu, 26 Mar 2026 12:17:20 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "u4arq66l9a"
+          "Value": "3t2rlcyapt"
         },
         {
           "Name": "label",
@@ -6056,13 +5964,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY="
+          "Value": "sha256-CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8="
         }
       ]
     },
     {
-      "Route": "css/site.u4arq66l9a.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\css\\site.css",
+      "Route": "css/site.3t2rlcyapt.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-3t2rlcyapt.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6071,7 +5979,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9723"
+          "Value": "4559"
         },
         {
           "Name": "Content-Type",
@@ -6079,56 +5987,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY=\""
+          "Value": "\"OkNV+2ry4EV5iGfcyjjAo/R3TWbBVDwGSZTHUdGopzI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 26 Nov 2025 11:45:16 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "u4arq66l9a"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-8sHrT2L2pOGguvfN7Gf+oDs3TuWfXLie0cxFEdipijY="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.u4arq66l9a.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-u4arq66l9a.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2340"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"IqU+RFz3LxgPJCXdTT3gdC/5vyC0fz8uuG/t1dc2ZUY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 26 Nov 2025 11:45:16 GMT"
+          "Value": "Thu, 26 Mar 2026 12:17:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6146,7 +6009,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "u4arq66l9a"
+          "Value": "3t2rlcyapt"
         },
         {
           "Name": "label",
@@ -6154,7 +6017,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-IqU+RFz3LxgPJCXdTT3gdC/5vyC0fz8uuG/t1dc2ZUY="
+          "Value": "sha256-OkNV+2ry4EV5iGfcyjjAo/R3TWbBVDwGSZTHUdGopzI="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-3t2rlcyapt.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000219298246"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4559"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OkNV+2ry4EV5iGfcyjjAo/R3TWbBVDwGSZTHUdGopzI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Mar 2026 12:17:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "20936"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Mar 2026 12:17:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CTRXFYHlGWrSLPUPX1lDOYBwmC+x6fm0BfQlJTLplH8="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Documente\\GitHub\\Imobiliare\\Imobiliare\\Imobiliare\\obj\\Debug\\net9.0\\compressed\\bu5rnc514j-3t2rlcyapt.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4559"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OkNV+2ry4EV5iGfcyjjAo/R3TWbBVDwGSZTHUdGopzI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Mar 2026 12:17:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-OkNV+2ry4EV5iGfcyjjAo/R3TWbBVDwGSZTHUdGopzI="
         }
       ]
     },
@@ -15668,7 +15668,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15721,7 +15721,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15758,7 +15758,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15805,7 +15805,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15866,7 +15866,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15911,7 +15911,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15966,7 +15966,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16027,7 +16027,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16072,7 +16072,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16127,7 +16127,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16180,7 +16180,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16217,7 +16217,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Nov 2025 09:35:13 GMT"
+          "Value": "Wed, 25 Mar 2026 15:04:11 GMT"
         },
         {
           "Name": "Cache-Control",

@@ -1,106 +1,616 @@
 ﻿@model IEnumerable<Imobiliare.Models.Favorite>
-
 @{
     ViewData["Title"] = "Favoritele Mele";
     Layout = "_Layout";
 }
 
-<div class="container py-5">
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-    <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold text-section-title">Favoritele Mele</h1>
-        <p class="text-muted">Proprietățile salvate în lista ta.</p>
-    </div>
-
-    @if (Model.Any())
-    {
-        <div class="text-end mb-4">
-            <form asp-action="DeleteAll" method="post"
-                  onsubmit="return confirm('Ești sigur că vrei să elimini TOATE favoritele?');">
-
-                <button type="submit"
-                        class="btn btn-danger btn-lg rounded-pill px-4">
-                    <i class="bi bi-trash3"></i> Șterge toate favoritele
-                </button>
-            </form>
-        </div>
+    :root {
+        --fav-teal: #75c5cb;
+        --fav-fuchsia: #C33FC3;
+        --fav-teal-light: #e4f7f8;
+        --fav-fuchsia-light: #faeaff;
+        --fav-gold: #FFD700;
+        --fav-dark: #1c0f2e;
+        --fav-mid: #4a3060;
+        --fav-muted: #9580aa;
     }
 
-    <div class="row justify-content-center">
+    .fav-page {
+        min-height: 100vh;
+        background: #faf7fd;
+        font-family: 'DM Sans', sans-serif;
+        position: relative;
+        overflow-x: hidden;
+    }
 
-        @if (!Model.Any())
-        {
-            <div class="col-12 text-center mt-4">
-                <h4 class="text-muted">Nu ai adăugat niciun anunț la favorite.</h4>
-                <a href="/Anunturi" class="btn btn-primary-modern mt-3">
-                    Vezi Anunțuri
-                </a>
-            </div>
+    /* === BACKGROUND BLOBS === */
+    .fav-blob {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .fav-blob-1 {
+        width: 500px;
+        height: 500px;
+        background: rgba(195,63,195,0.10);
+        top: -100px;
+        left: -150px;
+    }
+
+    .fav-blob-2 {
+        width: 400px;
+        height: 400px;
+        background: rgba(117,197,203,0.12);
+        bottom: 100px;
+        right: -100px;
+    }
+
+    .fav-blob-3 {
+        width: 300px;
+        height: 300px;
+        background: rgba(255,215,0,0.07);
+        top: 40%;
+        left: 50%;
+    }
+
+    .fav-content {
+        position: relative;
+        z-index: 1;
+        padding: 60px 0 80px;
+    }
+
+    /* === HERO HEADER === */
+    .fav-hero {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+    }
+
+    .fav-hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--fav-fuchsia-light), var(--fav-teal-light));
+        border: 1px solid rgba(195,63,195,0.18);
+        border-radius: 999px;
+        padding: 6px 18px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--fav-fuchsia);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+        .fav-hero-eyebrow span.dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--fav-fuchsia);
+            animation: pulse-dot 2s infinite;
         }
-        else
-        {
-            foreach (var fav in Model)
-            {
-                var anunt = fav.Anunturi;
 
-                string imgSrc = anunt.Imagine_anunt != null && anunt.Imagine_anunt.Length > 0
-                ? $"data:image/jpeg;base64,{Convert.ToBase64String(anunt.Imagine_anunt)}"
-                : "https://via.placeholder.com/400x300?text=Fara+Imagine";
+    @@keyframes pulse-dot {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
 
-                <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
+        50% {
+            opacity: 0.5;
+            transform: scale(0.7);
+        }
+    }
 
-                    <div class="card h-100 shadow-lg border-0 rounded-4 card-modern overflow-hidden">
+    .fav-hero h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2.6rem, 5vw, 4rem);
+        font-weight: 800;
+        color: var(--fav-dark);
+        line-height: 1.1;
+        margin-bottom: 14px;
+    }
 
-                        <div class="position-relative">
+        .fav-hero h1 em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--fav-fuchsia), var(--fav-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-                            <img src="@imgSrc"
-                                 class="card-img-top"
-                                 style="height: 250px; width: 100%; object-fit: cover;"
-                                 alt="@anunt.Denumire" />
+    .fav-hero p {
+        color: var(--fav-muted);
+        font-size: 1.05rem;
+        font-weight: 300;
+        max-width: 380px;
+        margin: 0 auto 28px;
+    }
 
-                            <span class="badge bg-dark position-absolute bottom-0 start-0 m-3 fs-5 p-2">
-                                @anunt.Pret.ToString("N0") €
-                            </span>
+    /* Counter badge */
+    .fav-count-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        border: 1px solid rgba(195,63,195,0.12);
+        border-radius: 16px;
+        padding: 10px 22px;
+        box-shadow: 0 8px 30px rgba(195,63,195,0.08);
+        font-size: 0.9rem;
+        color: var(--fav-mid);
+        font-weight: 500;
+    }
 
-                            <form method="post"
-                                  action="/Favorite/Delete/@fav.ID_Favorite"
-                                  class="position-absolute top-0 end-0 m-3"
-                                  style="z-index:999;">
+    .fav-count-num {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--fav-fuchsia);
+        line-height: 1;
+    }
 
-                                @Html.AntiForgeryToken()
+    /* === DELETE ALL BUTTON === */
+    .btn-delete-all {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,77,109,0.08);
+        color: #d63060;
+        border: 1.5px solid rgba(255,77,109,0.25);
+        border-radius: 14px;
+        padding: 10px 22px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        font-family: 'DM Sans', sans-serif;
+    }
 
-                                <button type="submit"
-                                        class="btn btn-sm btn-danger rounded-circle shadow"
-                                        style="width: 42px; height: 42px;">
-                                    <i class="bi bi-trash text-white"></i>
-                                </button>
+        .btn-delete-all:hover {
+            background: rgba(255,77,109,0.15);
+            border-color: rgba(255,77,109,0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(255,77,109,0.12);
+            color: #c02050;
+        }
 
-                            </form>
+    .fav-topbar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 36px;
+    }
 
+    /* === CARD GRID === */
+    .fav-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 28px;
+    }
 
-                        </div>
+    /* === PROPERTY CARD === */
+    .fav-card {
+        background: white;
+        border-radius: 26px;
+        overflow: hidden;
+        border: 1px solid rgba(195,63,195,0.07);
+        box-shadow: 0 4px 24px rgba(28,15,46,0.05);
+        transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        animation: cardReveal 0.5s ease both;
+    }
 
-                        <div class="card-body d-flex flex-column">
+    @@keyframes cardReveal {
+        from {
+            opacity: 0;
+            transform: translateY(24px);
+        }
 
-                            <h5 class="card-title fw-bold">@anunt.Denumire</h5>
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-                            <p class="card-text text-muted mb-3">
-                                <i class="bi bi-geo-alt-fill"></i> @anunt.Locatie
-                            </p>
+    .fav-card:nth-child(1) {
+        animation-delay: 0.05s;
+    }
 
-                            <a href="/Anunturi/Details/@anunt.ID_Anunt"
-                               class="btn btn-primary-modern mt-auto">
-                                Vezi Detalii <i class="bi bi-arrow-right"></i>
-                            </a>
+    .fav-card:nth-child(2) {
+        animation-delay: 0.10s;
+    }
 
-                        </div>
+    .fav-card:nth-child(3) {
+        animation-delay: 0.15s;
+    }
 
+    .fav-card:nth-child(4) {
+        animation-delay: 0.20s;
+    }
+
+    .fav-card:nth-child(5) {
+        animation-delay: 0.25s;
+    }
+
+    .fav-card:nth-child(6) {
+        animation-delay: 0.30s;
+    }
+
+    .fav-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 50px rgba(195,63,195,0.14);
+        border-color: rgba(195,63,195,0.15);
+    }
+
+    /* Image area */
+    .fav-card-img-wrap {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+    }
+
+        .fav-card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+        }
+
+    .fav-card:hover .fav-card-img-wrap img {
+        transform: scale(1.06);
+    }
+
+    /* Overlay gradient on image */
+    .fav-card-img-wrap::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(28,15,46,0.55) 0%, transparent 55%);
+        pointer-events: none;
+    }
+
+    /* Price tag */
+    .fav-price-tag {
+        position: absolute;
+        bottom: 14px;
+        left: 16px;
+        z-index: 2;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 6px 14px;
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+
+    .fav-price-num {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--fav-dark);
+        line-height: 1;
+    }
+
+    .fav-price-cur {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--fav-teal);
+    }
+
+    /* Remove button */
+    .fav-remove-btn {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 2;
+        width: 38px;
+        height: 38px;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(8px);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #c02050;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        transition: all 0.22s ease;
+    }
+
+        .fav-remove-btn:hover {
+            background: #ff4d6d;
+            color: white;
+            transform: scale(1.12);
+            box-shadow: 0 6px 18px rgba(255,77,109,0.35);
+        }
+
+    /* Favorite ribbon */
+    .fav-ribbon {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 2;
+        background: linear-gradient(135deg, var(--fav-fuchsia), #e060e0);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border-radius: 8px;
+        padding: 4px 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Card body */
+    .fav-card-body {
+        padding: 22px 24px 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fav-card-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--fav-dark);
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+
+    .fav-card-location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        color: var(--fav-muted);
+        margin-bottom: 20px;
+        font-weight: 400;
+    }
+
+        .fav-card-location i {
+            color: var(--fav-teal);
+            font-size: 0.9rem;
+        }
+
+    /* Separator line */
+    .fav-card-sep {
+        height: 1px;
+        background: linear-gradient(to right, rgba(195,63,195,0.1), rgba(117,197,203,0.1), transparent);
+        margin-bottom: 20px;
+    }
+
+    /* Details button */
+    .btn-fav-details {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--fav-fuchsia), #d848d8);
+        color: white !important;
+        border: none;
+        border-radius: 14px;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none !important;
+        transition: all 0.28s ease;
+        margin-top: auto;
+        box-shadow: 0 6px 20px rgba(195,63,195,0.25);
+        font-family: 'DM Sans', sans-serif;
+    }
+
+        .btn-fav-details:hover {
+            background: linear-gradient(135deg, #a830a8, #c040c0);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(195,63,195,0.35);
+        }
+
+        .btn-fav-details i {
+            transition: transform 0.25s ease;
+        }
+
+        .btn-fav-details:hover i {
+            transform: translateX(4px);
+        }
+
+    /* === EMPTY STATE === */
+    .fav-empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 80px 20px;
+    }
+
+    .fav-empty-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, var(--fav-fuchsia-light), var(--fav-teal-light));
+        border-radius: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 28px;
+        font-size: 2.5rem;
+        border: 1px solid rgba(195,63,195,0.12);
+        box-shadow: 0 12px 32px rgba(195,63,195,0.08);
+    }
+
+    .fav-empty h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        color: var(--fav-dark);
+        margin-bottom: 10px;
+    }
+
+    .fav-empty p {
+        color: var(--fav-muted);
+        font-size: 0.98rem;
+        margin-bottom: 28px;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn-fav-browse {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--fav-teal), #5abdc5);
+        color: white !important;
+        text-decoration: none !important;
+        border-radius: 16px;
+        padding: 14px 30px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        box-shadow: 0 8px 24px rgba(117,197,203,0.3);
+        transition: all 0.28s ease;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+        .btn-fav-browse:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(117,197,203,0.4);
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .fav-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .fav-content {
+            padding: 40px 0 60px;
+        }
+
+        .fav-hero h1 {
+            font-size: 2.2rem;
+        }
+    }
+</style>
+
+<!-- Background blobs -->
+<div class="fav-blob fav-blob-1"></div>
+<div class="fav-blob fav-blob-2"></div>
+<div class="fav-blob fav-blob-3"></div>
+
+<div class="fav-page">
+    <div class="fav-content">
+        <div class="container">
+
+            <!-- HERO -->
+            <div class="fav-hero">
+                <div class="fav-hero-eyebrow">
+                    <span class="dot"></span>
+                    Lista ta personală
+                </div>
+                <h1>Proprietățile tale <em>favorite</em></h1>
+                <p>Toate anunțurile salvate, într-un singur loc.</p>
+
+                @if (Model.Any())
+                {
+                    <div class="fav-count-badge">
+                        <span class="fav-count-num">@Model.Count()</span>
+                        <span>proprietăt@(Model.Count() == 1 ? "e salvată" : "i salvate")</span>
                     </div>
+                }
+            </div>
 
+            <!-- TOP BAR (delete all) -->
+            @if (Model.Any())
+            {
+                <div class="fav-topbar">
+                    <form asp-action="DeleteAll" method="post"
+                          onsubmit="return confirm('Ești sigur că vrei să elimini TOATE favoritele?');">
+                        <button type="submit" class="btn-delete-all">
+                            <i class="bi bi-trash3"></i>
+                            Șterge toate
+                        </button>
+                    </form>
                 </div>
             }
-        }
 
+            <!-- GRID -->
+            <div class="fav-grid">
+                @if (!Model.Any())
+                {
+                    <div class="fav-empty">
+                        <div class="fav-empty-icon">
+                            <i class="bi bi-heart" style="color: var(--fav-fuchsia);"></i>
+                        </div>
+                        <h3>Niciun favorit încă</h3>
+                        <p>Explorează anunțurile și salvează proprietățile care îți plac.</p>
+                        <a href="/Anunturi" class="btn-fav-browse">
+                            Explorează anunțuri <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    foreach (var fav in Model)
+                    {
+                        var anunt = fav.Anunturi;
+                        string imgSrc = anunt.Imagine_anunt != null && anunt.Imagine_anunt.Length > 0
+                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(anunt.Imagine_anunt)}"
+                        : "https://via.placeholder.com/400x300?text=Fara+Imagine";
+
+                        <div class="fav-card">
+                            <div class="fav-card-img-wrap">
+                                <img src="@imgSrc" alt="@anunt.Denumire" />
+
+                                <!-- Ribbon -->
+                                <div class="fav-ribbon">
+                                    <i class="bi bi-heart-fill"></i> Favorit
+                                </div>
+
+                                <!-- Price -->
+                                <div class="fav-price-tag">
+                                    <span class="fav-price-num">@anunt.Pret.ToString("N0")</span>
+                                    <span class="fav-price-cur">EUR</span>
+                                </div>
+
+                                <!-- Remove -->
+                                <form method="post"
+                                      action="/Favorite/Delete/@fav.ID_Favorite"
+                                      style="position:absolute;top:14px;right:14px;z-index:2;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="fav-remove-btn" title="Elimină din favorite">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="fav-card-body">
+                                <div class="fav-card-title">@anunt.Denumire</div>
+                                <div class="fav-card-location">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    @anunt.Locatie
+                                </div>
+                                <div class="fav-card-sep"></div>
+                                <a href="/Anunturi/Details/@anunt.ID_Anunt"
+                                   class="btn-fav-details">
+                                    Vezi detalii
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
     </div>
-
 </div>
